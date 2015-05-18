@@ -43,18 +43,18 @@ UserSchema.methods.checkPassword = function checkPassword(password, callback) {
 
 UserSchema.methods.generateToken = function generateToken(secret, callback) {
   var currentDate = new Date();
-  this.eat = currentDate.setHours(currentDate.getHours() + expiresAfterHours);
+  this.eat = currentDate.getTime();
 
   this.save(function(err, user) {
     if (err) {
       console.log('Error saving new user.eat value. Error: ', err);
-      throw err;
+      callback(err, null);
     }
 
     eat.encode({eat: user.eat}, secret, function encodeEat(err, eatoken) {
       if (err) {
         console.log('Error encoding eat. Error: ', err);
-        throw err;
+        callback(err, null);
       }
       callback(err, eatoken);
     });
