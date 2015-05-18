@@ -20,7 +20,6 @@ An app where users add their part to growing stories.
   - [ ] JSON FROM Backend to Frontend
 
 ## Mock JSON
-===================
 Examples of expected input and output for API
 
 ### User Resource
