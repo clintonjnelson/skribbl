@@ -1,6 +1,6 @@
 'use strict';
 
-var bodyparser = require('bodyparser');
+var bodyparser = require('body-parser');
 var eatAuth    = require('../lib/eat_auth.js')(process.env.AUTH_SECRET);
 var User       = require('../models/User.js');
 
@@ -18,7 +18,7 @@ module.exports = function(router, passport) {
       }
       // TODO: WHAT DOES IOS WANT SUCCESS TO RETURN BESIDES EAT? USER? TRUE?
       // IF USER, REMOVE EAT & PASSWORD HASH
-      res.json({eat: eat})
+      res.json({eat: eat});
     });
   }));
 
@@ -31,6 +31,6 @@ module.exports = function(router, passport) {
       }
       // TODO: WHAT DOES IOS WANT SUCCESS TO RETURN?
       res.json({msg: 'you have been signed out'});
-    })
+    });
   });
 };

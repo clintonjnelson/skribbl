@@ -63,7 +63,7 @@ describe('Users', function() {
         it('creates the new EAT auth token');
         it('returns a success message');
       });
-    })
+    });
 
     describe('GET /api/users/notauser', function() {
       it('returns a generic error message');

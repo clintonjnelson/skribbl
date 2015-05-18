@@ -58,7 +58,7 @@ module.exports = function loadUserRoutes(router) {
           if (err) {
             console.log('Error generating EAT after user creation. Error: ', err);
             // TODO: WHAT RETURN DOES IOS WANT HERE?
-            return res.json(msg: 'User created. Please sign in.');
+            return res.json({msg: 'User created. Please sign in.'});
           }
           // TODO: WHAT RETURN DOES IOS WANT HERE?
           res.json({eat: eat, msg: 'user created'});
@@ -77,11 +77,11 @@ module.exports = function loadUserRoutes(router) {
     if (username !== req.user.username) {  // verify ownership
       console.log('User tried to delete another user.');
       // TODO: WHAT RETURN DOES IOS WANT HERE? MSG? FALSE? BOTH? REDIRECT?
-      return res.status(401).json({msg: 'Unauthorized.'})
+      return res.status(401).json({msg: 'Unauthorized.'});
     }
 
     // TODO: change update query to '_id': req.user._id from eatAuth
-    User.update({'username', req.params.username}, function() {
+    User.update({'username': req.params.username}, function() {
       // TODO: WHAT RETURN DOES IOS WANT HERE? MSG? FALSE? BOTH?
       switch(true) {
         case !!(err && err.code === 11000):
@@ -104,7 +104,7 @@ module.exports = function loadUserRoutes(router) {
     if (username !== req.user.username) {  // verify ownership
       console.log('User tried to delete another user.');
       // TODO: WHAT RETURN DOES IOS WANT HERE? MSG? FALSE? BOTH? REDIRECT?
-      return res.status(401).json({msg: 'Unauthorized.'})
+      return res.status(401).json({msg: 'Unauthorized.'});
     }
 
     User.findOneAndRemove({'username': username}, function(err, data) {
