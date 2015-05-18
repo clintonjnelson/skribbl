@@ -5,6 +5,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-jscs'          );
   grunt.loadNpmTasks('grunt-mocha-test'    );
 	grunt.loadNpmTasks('grunt-contrib-watch' );
+	grunt.loadNpmTasks('grunt-nodemon');
 
   // Configure Tasks
   grunt.initConfig({
