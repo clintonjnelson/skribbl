@@ -39,7 +39,7 @@ module.exports = function(grunt) {
 		nodemon: {
 			dev: {
 				script: 'server.js'
-			}	
+			}
 		},
 		watch: {
 			jshint: {
