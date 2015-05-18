@@ -4,9 +4,6 @@ var bcrypt   = require('bcrypt-nodejs');
 var eat      = require('eat');
 var mongoose = require('mongoose');
 
-// Expiration Time
-var expiresAfterHours = 2;
-
 // DB Schema for User
 var UserSchema = mongoose.Schema({
   eat: Number,
