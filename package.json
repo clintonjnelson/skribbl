@@ -1,0 +1,45 @@
+{
+  "name": "OPAAT",
+  "version": "0.1.0",
+  "description": "Stories built from user contributions.",
+  "main": "server.js",
+  "scripts": {
+    "test": "./node_modules/grunt-cli/bin/grunt test",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/clintonjnelson/One-Piece-At-A-Time.git"
+  },
+  "keywords": [
+    "Code",
+    "Fellows",
+    "D30",
+    "D37"
+  ],
+  "author": "clintonjnelson@live.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/clintonjnelson/One-Piece-At-A-Time/issues"
+  },
+  "homepage": "https://github.com/clintonjnelson/One-Piece-At-A-Time",
+  "devDependencies": {
+    "chai": "^2.3.0",
+    "chai-http": "^1.0.0",
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-jshint": "^0.11.2",
+    "grunt-jscs": "^1.8.0",
+    "grunt-mocha-test": "^0.12.7",
+    "mocha": "^2.2.5"
+  },
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.12.4",
+    "eat": "^0.1.1",
+    "express": "^4.12.3",
+    "mongoose": "^4.0.3",
+    "passport": "^0.2.1",
+    "passport-http": "^0.2.2"
+  }
+}

@@ -1,0 +1,79 @@
+'use strict';
+
+var bcrypt   = require('bcrypt-nodejs');
+var eat      = require('eat');
+var mongoose = require('mongoose');
+
+// Expiration Time
+var expiresAfterHours = 2;
+
+// DB Schema for User
+var UserSchema = mongoose.Schema({
+  eat: Number,
+  username:   { type: String, required: true , unique: true},
+  basic: {
+    email:    { type: String, required: true, unique: true },
+    password: { type: String, required: true               }
+  }
+});
+
+// Validations
+UserSchema.path('basic.email'   ).required(true);
+UserSchema.path('basic.email'   ).index( {unique: true} );
+UserSchema.path('basic.password').required(true);
+UserSchema.path('username'      ).required(true);
+UserSchema.path('username'      ).index( {unique: true} );
+
+// User Methods
+UserSchema.methods.generateHash = function generateHash(password, callback) {
+  bcrypt.genSalt(8, function(err, salt) {
+    bcrypt.hash(password, salt, null, function saveHashedPassword(err, hash) {
+      if (err) throw err;
+      callback(hash);
+    });
+  });
+};
+
+UserSchema.methods.checkPassword = function checkPassword(password, calback) {
+  bcrypt.compare(password, this.basic.password, function validatePassword(err, res) {
+    if (err) throw err;
+    callback(res);  // if failure, res=false. if success, res=true
+  });
+};
+
+UserSchema.methods.generateToken = function generateToken(secret, callback) {
+  var currentDate = new Date();
+  this.eat = currentDate.setHours(currentDate.getHours() + expiresAfterHours);
+
+  this.save(function(err, user) {
+    if (err) {
+      console.log('Error saving new user.eat value. Error: ', err);
+      throw err;
+    }
+
+    eat.encode({eat: user.eat}, secret, function encodeEat(err, eatoken) {
+      if (err) {
+        console.log('Error encoding eat. Error: ', err);
+        throw err;
+      }
+      callback(err, eatoken);
+    });
+  });
+};
+
+UserSchema.methods.invalidateToken = function invalidateToken(callback) {
+  this.eat = null;
+  this.save(function(err, user) {
+    if (err) {
+      console.log('Could not save invalidated token. Error: ', err);
+      return callback(err, null);
+    }
+    callback(err, user);
+  });
+};
+
+// Export mongoose model/schema
+module.exports = mongoose.model('User', UserSchema);
+
+
+
