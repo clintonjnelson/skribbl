@@ -34,8 +34,8 @@ Returns:
 #### GET -> '/api/login'
 Will use basic http authorization to log user in and return an EAT. Authorization is not session based.
 Accepts: Authorization header with Base64 encoded username & password.
-On Success: `{ "success": TRUE, token: null }`
-On Fail: `{ "success": FALSE, token: $token }`
+On Success: `{ "success": TRUE, token: $token }`
+On Fail: `{ "success": FALSE, token: null }`
 
 ### Skribbl Resource
 #### POST -> 'api/skribbl/'
@@ -58,7 +58,7 @@ This will be the most useful endpoint returning the meat of the API.
 Accepts: unique ID number for individual skribbl item.
 Returns:
 ```
-[
+{
   {
     // BASIC SKRIBBLE OBJECT. 1ST IN RESPONSE IS PARENT OF ALL WITHIN FOLLOWING NESTED ARRAYS
     "id": 1, // This is the same ID as requested in API path
@@ -72,38 +72,38 @@ Returns:
     "parent": "null", // The immediate parent of this post, also the penultimate item in 'storypath'
     "eat": token
   },
-  [
+  {
     {
       // SKRIBBL OBJECT
       "id": 2
     },
-    [
+    {
       { // SKRIBBLE OBJECT "id": 5 },
       { // SKRIBBLE OBJECT "id": 6 },
       { // SKRIBBLE OBJECT "id": 7 }
-    ]
-  ],
-  [
+    }
+  },
+  {
     {
       // SKRIBBL OBJECT
       "id": 3
     },
-    [
+    {
       { // SKRIBBLE OBJECT "id": 8 },
       { // SKRIBBLE OBJECT "id": 9 },
       { // SKRIBBLE OBJECT "id": 10 }
-    ]
-  ],
-  [
+    }
+  },
+  {
     {
       // SKRIBBL OBJECT
       "id": 4
     },
-    [
+    {
       { // SKRIBBLE OBJECT "id": 11 },
       { // SKRIBBLE OBJECT "id": 12 },
       { // SKRIBBLE OBJECT "id": 13 }
-    ]
-  ],
-]
+    }
+  },
+}
 ```
