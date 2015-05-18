@@ -4,6 +4,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-jscs'          );
   grunt.loadNpmTasks('grunt-mocha-test'    );
+	grunt.loadNpmTasks('grunt-contrib-watch' );
 
   // Configure Tasks
   grunt.initConfig({
@@ -35,6 +36,24 @@ module.exports = function(grunt) {
         jshintrc: true
       }
     },
+		nodemon: {
+			dev: {
+				script: 'server.js'
+			}	
+		},
+		watch: {
+			jshint: {
+				files: [ 'Gruntfile.js',
+               '*.js',
+               '/lib/**/*.js',
+               'models/**/*.js',
+               'routes/**/*.js',
+               'test/**/*.js'
+             ],
+				tasks: ['jshint:dev'],
+				options: { spawn: false }
+			}
+		},
     mochaTest: {
       test: {
         options: {
