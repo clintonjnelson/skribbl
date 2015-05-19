@@ -1,0 +1,160 @@
+{
+  "id": 0,
+  "created_at": "time",
+  "content": "It was the best of times, it was the worst of times.",
+  "author": "1",
+  "story_id": "1",
+  "genre": "fantasy",
+  "storypath": "0/",
+  "story_name": "Tale of Two Cities",
+  "parent_skribbl": null,
+  "children": [
+    {
+      "id": 1,
+      "created_at": "time",
+      "content": "It was the best of times, it was the worst of times.",
+      "author": "1",
+      "story_id": "1",
+      "genre": "fantasy",
+      "storypath": "0/1",
+      "story_name": "Tale of Two Cities",
+      "parent_skribbl": "0",
+      "children": [
+        {
+          "id": 4,
+          "created_at": "time",
+          "content": "It was the best of times, it was the worst of times.",
+          "author": "1",
+          "story_id": "1",
+          "genre": "fantasy",
+          "storypath": "0/1/4",
+          "story_name": "Tale of Two Cities",
+          "parent_skribbl": "1",
+          "children": null
+        },
+        {
+          "id": 5,
+          "created_at": "time",
+          "content": "It was the best of times, it was the worst of times.",
+          "author": "1",
+          "story_id": "1",
+          "genre": "fantasy",
+          "storypath": "0/1/5",
+          "story_name": "Tale of Two Cities",
+          "parent_skribbl": "1",
+          "children": null
+        },
+        {
+          "id": 6,
+          "created_at": "time",
+          "content": "It was the best of times, it was the worst of times.",
+          "author": "1",
+          "story_id": "1",
+          "genre": "fantasy",
+          "storypath": "0/1/6",
+          "story_name": "Tale of Two Cities",
+          "parent_skribbl": "1",
+          "children": null
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "created_at": "time",
+      "content": "It was the best of times, it was the worst of times.",
+      "author": "1",
+      "story_id": "1",
+      "genre": "fantasy",
+      "storypath": "0/2",
+      "story_name": "Tale of Two Cities",
+      "parent_skribbl": "0",
+      "children": [
+        {
+          "id": 7,
+          "created_at": "time",
+          "content": "It was the best of times, it was the worst of times.",
+          "author": "1",
+          "story_id": "1",
+          "genre": "fantasy",
+          "storypath": "0/2/7",
+          "story_name": "Tale of Two Cities",
+          "parent_skribbl": "2",
+          "children": null
+        },
+        {
+          "id": 8,
+          "created_at": "time",
+          "content": "It was the best of times, it was the worst of times.",
+          "author": "1",
+          "story_id": "1",
+          "genre": "fantasy",
+          "storypath": "0/2/8",
+          "story_name": "Tale of Two Cities",
+          "parent_skribbl": "2",
+          "children": null
+        },
+        {
+          "id": 9,
+          "created_at": "time",
+          "content": "It was the best of times, it was the worst of times.",
+          "author": "1",
+          "story_id": "1",
+          "genre": "fantasy",
+          "storypath": "0/2/9",
+          "story_name": "Tale of Two Cities",
+          "parent_skribbl": "2",
+          "children": null
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "created_at": "time",
+      "content": "It was the best of times, it was the worst of times.",
+      "author": "1",
+      "story_id": "1",
+      "genre": "fantasy",
+      "storypath": "0/3",
+      "story_name": "Tale of Two Cities",
+      "parent_skribbl": "0",
+      "children": [
+        {
+          "id": 10,
+          "created_at": "time",
+          "content": "It was the best of times, it was the worst of times.",
+          "author": "1",
+          "story_id": "1",
+          "genre": "fantasy",
+          "storypath": "0/3/10",
+          "story_name": "Tale of Two Cities",
+          "parent_skribbl": "3",
+          "children": null
+        },
+        {
+          "id": 11,
+          "created_at": "time",
+          "content": "It was the best of times, it was the worst of times.",
+          "author": "1",
+          "story_id": "1",
+          "genre": "fantasy",
+          "storypath": "0/3/11",
+          "story_name": "Tale of Two Cities",
+          "parent_skribbl": "3",
+          "children": null
+        },
+        {
+          "id": 12,
+          "created_at": "time",
+          "content": "It was the best of times, it was the worst of times.",
+          "author": "1",
+          "story_id": "1",
+          "genre": "fantasy",
+          "storypath": "0/3/12",
+          "story_name": "Tale of Two Cities",
+          "parent_skribbl": "3",
+          "children": null
+        }
+      ]
+    }
+  ]
+}

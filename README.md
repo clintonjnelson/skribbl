@@ -43,12 +43,11 @@ Creates a new skribbl post.
 Accepts: field: [ data-type ]
 `{
   "content": STRING,
-  "author": INTEGER,
-  "storyid": INTEGER,
-  "storypath": STRING,
-  "storyname": STRING,
-  "genre": STRING,
-  "eat": TOKEN
+  "author": OBJECT_ID,
+  "story_id": INTEGER,
+  "story_name": STRING,
+  "parent_skribbl": STRING,
+  "genre": STRING
   }`
 Returns:
 `{ "success": TRUE/FALSE }`
@@ -59,51 +58,72 @@ Accepts: unique ID number for individual skribbl item.
 Returns:
 ```
 {
-  {
-    // BASIC SKRIBBLE OBJECT. 1ST IN RESPONSE IS PARENT OF ALL WITHIN FOLLOWING NESTED ARRAYS
-    "id": 1, // This is the same ID as requested in API path
-    "created_at": "time",
-    "content": "It was the best of times, it was the worst of times.", // The text content of post
-    "author": "1", // User ID
-    "storyid": "1", // Pointer to
-    "genre": "fantasy", // To be used later for filtering
-    "storypath": "1/", // Path of all ancestors with '/' delimiter
-    "storyname": "Tale of Two Cities", // Basically the title of the seed story carried through every descendant
-    "parent": "null", // The immediate parent of this post, also the penultimate item in 'storypath'
-    "eat": token
-  },
-  {
+  "id": 0,
+  "created_at": "time",
+  "content": "It was the best of times, it was the worst of times.",
+  "author": "1",
+  "story_id": "1",
+  "genre": "fantasy",
+  "story_path": "0/",
+  "story_name": "Tale of Two Cities",
+  "parent_skribbl": null,
+  "children": [
     {
-      // SKRIBBL OBJECT
-      "id": 2
+      "id": 1,
+      ...
+      "storypath": "0/1",
+      "children": [
+        {
+          "id": 4,
+          "story_path": "0/1/4"
+          ...
+          "children": null
+        },
+        {
+          "id": 5,
+          ...
+        },
+        {
+          "id": 6,
+          ...
+        }
+      ]
     },
     {
-      { // SKRIBBLE OBJECT "id": 5 },
-      { // SKRIBBLE OBJECT "id": 6 },
-      { // SKRIBBLE OBJECT "id": 7 }
-    }
-  },
-  {
-    {
-      // SKRIBBL OBJECT
-      "id": 3
+      "id": 2,
+      "children": [
+        {
+          "id": 7,
+          ...
+        },
+        {
+          "id": 8,
+          ...
+        },
+        {
+          "id": 9,
+          ...
+        }
+      ]
     },
     {
-      { // SKRIBBLE OBJECT "id": 8 },
-      { // SKRIBBLE OBJECT "id": 9 },
-      { // SKRIBBLE OBJECT "id": 10 }
+      "id": 3,
+      "children": [
+        {
+          "id": 10,
+          ...
+        },
+        {
+          "id": 11,
+          ...
+        },
+        {
+          "id": 12,
+          ...
+        }
+      ]
     }
-  },
-  {
-    {
-      // SKRIBBL OBJECT
-      "id": 4
-    },
-    {
-      { // SKRIBBLE OBJECT "id": 11 },
-      { // SKRIBBLE OBJECT "id": 12 },
-      { // SKRIBBLE OBJECT "id": 13 }
-    }
-  },
+  ]
 }
+
 ```
