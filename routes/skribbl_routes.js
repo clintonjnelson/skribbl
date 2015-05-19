@@ -21,9 +21,9 @@ module.exports = function( router, passport ) {
     newSkribbl.save(function( err, skribbl ) {
       if ( err ) {
         console.log( err );
-        return res.status(500).json({ "success": FALSE });
+        return res.status(500).json({ "success": false });
       }
-      res.json({ "success": TRUE });
+      res.json({ "success": true });
     });
   });
 
@@ -42,7 +42,7 @@ module.exports = function( router, passport ) {
         first_children.forEach(function( el, i ) {
           childArray.push( el );
         });
-        var skribblTree = parent_skribbl;
+        var skribblTree = JSON.parse( JSON.stringify( parent_skribbl ) );
         skribblTree.children = childArray;
         res.json( skribblTree );
       });
