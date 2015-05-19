@@ -34,6 +34,8 @@
     "grunt-jscs": "^1.8.0",
     "grunt-mocha-test": "^0.12.7",
     "grunt-nodemon": "^0.4.0",
+    "jscs": "^1.13.1",
+    "jshint": "^2.7.0",
     "mocha": "^2.2.5"
   },
   "dependencies": {
