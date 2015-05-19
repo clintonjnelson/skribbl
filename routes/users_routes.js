@@ -22,16 +22,15 @@ module.exports = function loadUserRoutes(router) {
     newUser.generateHash(req.body.password, function(hash) {
       newUser.basic.password = hash;
       newUser.save(function(err, user) {
-         if (err && _.contains(err.errmsg, "$user")) {
-
-          // TODO: Wire up for password validation
+        if (err && _.contains(err.errmsg, "$user")) {
           return res.status(500).json({success: false, usernamePass: false, emailPass: null, passwordPass: null});
         }
-
         if (err && _.contains(err.errmsg, ".email")) {
           return res.status(500).json({success: false, usernamePass: true, emailPass: false, passwordPass: null});
         }
-
+        if (err) {
+          return res.status(500).json({success: false,  usernamePass: null, emailPass: null, passwordPass: null});
+        }
         res.json({success: true, usernamePass: true, emailPass: true, passwordPass: null});
       });
     });

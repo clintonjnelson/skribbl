@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 // DB Schema for User
 var UserSchema = mongoose.Schema({
   eat: Number,
-  username:   { type: String, required: true , unique: true},
+  username:   { type: String, required: true, unique: true},
   basic: {
     email:    { type: String, required: true, unique: true },
     password: { type: String, required: true               }
