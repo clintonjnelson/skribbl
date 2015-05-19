@@ -30,4 +30,4 @@ SkribblSchema.path('story_name').validate(/\S+/);
 SkribblSchema.path('content').validate(/\S+/);
 SkribblSchema.path('genre').validate(/\S+/);
 
-modue.exports mongoose.model('Skribbl', SkribblSchema);
+module.exports = mongoose.model('Skribbl', SkribblSchema);
