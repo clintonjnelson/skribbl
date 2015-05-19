@@ -10,5 +10,3 @@ script: npm test
 services:
   - mongodb
 
-env:
-  - AUTH_SECRET=superSecretAuth MONGOLAB_URI=mongodb://localhost/user_development
