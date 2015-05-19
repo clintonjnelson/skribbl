@@ -44,14 +44,13 @@ UserSchema.methods.generateToken = function generateToken(secret, callback) {
 
   this.save(function(err, user) {
     if (err) {
-      console.log('Error saving new user.eat value. Error: ', err);
-      callback(err, null);
+      return callback(err, null);
     }
 
     eat.encode({eat: user.eat}, secret, function encodeEat(err, eatoken) {
       if (err) {
         console.log('Error encoding eat. Error: ', err);
-        callback(err, null);
+        return callback(err, null);
       }
       callback(err, eatoken);
     });
