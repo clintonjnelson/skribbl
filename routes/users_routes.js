@@ -3,7 +3,6 @@
 var bodyparser = require('body-parser');
 var eatAuth    = require('../lib/eat_auth.js')(process.env.AUTH_SECRET);
 var User       = require('../models/User.js');
-var colors     = require("colors");
 var _          = require("lodash");
 
 
