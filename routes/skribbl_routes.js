@@ -21,9 +21,9 @@ module.exports = function( router, passport ) {
     newSkribbl.save(function( err, skribbl ) {
       if ( err ) {
         console.log( err );
-        return res.status(500).json({ "success": FALSE });
+        return res.status(500).json({ "success": false });
       }
-      res.json({ "success": TRUE });
+      res.json({ "success": true });
     });
   });
 
@@ -38,13 +38,16 @@ module.exports = function( router, passport ) {
           console.log( err );
           return res.status(500).json({ message: 'Database Error' });
         }
-        var childArray = [];
-        first_children.forEach(function( el, i ) {
-          childArray.push( el );
+        // CAREFUL of ASYNC LOOPING
+        first_children.forEach( function( second_parent, i ) {
+          Skribbl.find({ parent_skribbl: second_parent._id }, function( err, second_children ) {
+            var childArray = [];
+            second_children.forEach(function( child, i ) {
+              childArray.push( child );
+            });
+
+          });
         });
-        var skribblTree = JSON.parse( JSON.stringify( parent_skribbl ) );
-        skribblTree.children = childArray;
-        res.json( skribblTree );
       });
     });
   });
