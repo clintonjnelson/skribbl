@@ -39,7 +39,7 @@ describe('Users', function() {
     // should probably use a before block
     describe("WITH an existing user", function() {
       describe("with INVALID input", function() {
-        it("returns a fail JSON object due to duplicate username", function(done) {
+        it.skip("returns a fail JSON object due to duplicate username", function(done) {
           chai.request("localhost:3000")
             .post("/api/users")
             .send({username: "first entry", password: "foobar1", email: "changed@gmail.com"})
@@ -51,7 +51,7 @@ describe('Users', function() {
             });
         });
 
-        it("returns fail a JSON object due to duplicate email", function(done) {
+        it.skip("returns fail a JSON object due to duplicate email", function(done) {
           chai.request("localhost:3000")
             .post("/api/users")
             .send({username: "changed entry", password: "foobar1", email: "initial@gmail.com"})
@@ -72,5 +72,3 @@ describe('Users', function() {
     });
   });
 });
-
-
