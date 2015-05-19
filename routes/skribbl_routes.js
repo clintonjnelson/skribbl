@@ -9,8 +9,16 @@ module.exports = function( router, passport ) {
   router.use( bodyparser.json() );
 
   router.post( '/skribbl', function( req, res ) {
-    var newSkribbl = new Skribbl( req.body );
-    newSkribble.save(function( err, skribbl ) {
+    var newSkribbl = new Skribbl({
+      content: req.body.content,
+      created_at: new Date(),
+      story_id: req.body.story_id,
+      story_name: req.body.story_name,
+      genre: req.body.genre,
+      parent_skribbl: req.body.parent_skribbl,
+      author: req.body.author,
+    });
+    newSkribbl.save(function( err, skribbl ) {
       if ( err ) {
         console.log( err );
         return res.status(500).json({ "success": "false" });
