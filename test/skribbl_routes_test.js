@@ -34,7 +34,7 @@ describe('Skribble routes', function() {
 						done();
 					});
 			});
-		})
+		});
 
 		describe('with invalid input to content', function(){
 			it('should return {success: false}', function(done){
