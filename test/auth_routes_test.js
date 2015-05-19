@@ -58,7 +58,7 @@ describe('Authentication', function() {
 
     describe('with INVALID PASSWORD', function() {
       var responseBody;
-      beforeEach(function(done) {
+      before(function(done) {
         chai.request('localhost:3000')
           .get('/api/login')
           .auth('unicorn@example.com', 'wrongpassword')
@@ -68,7 +68,7 @@ describe('Authentication', function() {
             done();
           });
       });
-      afterEach(function(done) {
+      after(function(done) {
         mongoose.connection.db.dropDatabase(function(){ done(); });
       });
       it('returns an empty object', function(done) {
@@ -83,7 +83,7 @@ describe('Authentication', function() {
 
     describe('with INVALID EMAIL', function() {
       var responseBody;
-      beforeEach(function(done) {
+      before(function(done) {
         chai.request('localhost:3000')
           .get('/api/login')
           .auth('vampire@example.com', 'foobar')
@@ -93,9 +93,10 @@ describe('Authentication', function() {
             done();
           });
       });
-      afterEach(function(done) {
+      after(function(done) {
         mongoose.connection.db.dropDatabase(function(){ done(); });
       });
+
       it('returns success:false', function(done) {
         expect(responseBody).to.eql({});
         done();

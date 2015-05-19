@@ -31,6 +31,7 @@ module.exports = function loadUserRoutes(router) {
         if (err) {
           return res.status(500).json({success: false,  usernamePass: null, emailPass: null, passwordPass: null});
         }
+
         res.json({success: true, usernamePass: true, emailPass: true, passwordPass: null});
       });
     });
