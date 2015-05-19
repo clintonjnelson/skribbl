@@ -1,12 +1,11 @@
+sudo: required
 language: node_js
 node_js:
   - "0.10"
 
-before_install:
-  - npm install
-
-script: npm test
-
+script:
+  - npm test
+  - npm cache clear -g
 services:
   - mongodb
 
