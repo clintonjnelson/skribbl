@@ -9,8 +9,6 @@ var app      = express();
 var usersRouter = express.Router();
 var authRouter  = express.Router();
 var skribblRouter = express.Router();
-
-// for timelines
 var timelineRouter = express.Router();
 
 
@@ -28,17 +26,12 @@ require('./lib/passport_strategy.js')(passport);
 require('./routes/users_routes.js')(usersRouter);
 require('./routes/auth_routes.js' )(authRouter, passport);
 require('./routes/skribbl_routes.js')(skribblRouter);
-
-// for timeslines
 require('./routes/timeline_routes.js')(timelineRouter);
-
 
 // Assign base routes for routers
 app.use('/api', usersRouter);
 app.use('/api', authRouter );
 app.use('/api', skribblRouter );
-
-// for timelines
 app.use('/api', timelineRouter );
 
 
