@@ -28,8 +28,13 @@ module.exports = function( router, passport ) {
   });
 
   router.get( '/skribbl/:id', function( req, res ) {
-
+    Skribbl.findOne({ _id: req.params.id }, function( err, data ) {
+      if ( err ) {
+        console.log( err );
+        return res.status(500).json({ message: 'Database Error' });
+      }
+      res.json( data );
+    })
   });
-
 
 }
