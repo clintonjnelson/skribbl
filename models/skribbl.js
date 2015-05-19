@@ -26,8 +26,14 @@ SkribblSchema.methods.generateStoryId = function(){
 };
 
 //check for empty string
-SkribblSchema.path('story_name').validate(/\S+/);
-SkribblSchema.path('content').validate(/\S+/);
-SkribblSchema.path('genre').validate(/\S+/);
+SkribblSchema.path('story_name').validate(/function(value){
+	return /\S+/.test(value);
+});
+SkribblSchema.path('content').validate(function(value){
+	return /\S+/.test(value);
+});
+SkribblSchema.path('genre').validate(function(value){
+	return /\S+/.test(value);
+});
 
 module.exports = mongoose.model('Skribbl', SkribblSchema);
