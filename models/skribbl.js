@@ -1,0 +1,33 @@
+'use strict';
+
+var mongoose = require('mongoose');
+
+var SkribblSchema = mongoose.Schema({
+	story_id: {type: Number, required: true},
+	story_name: {type: String, required: true},
+	author: {type: Schemas.Types.ObjectId, ref: 'Skribbl', required: true},
+	content: {type: String, required: true},
+	created_at: {type: Date, required: true},
+	parent_skribble: {type: Schemas.Types.ObjectId, ref: 'Skribbl', required: true},
+	story_path: [],
+	genre: String
+});
+
+SkribblSchema.methods.generateStoryId = function(){
+	if (this.story_id) return;
+	if this.story_id = 
+		var d = new Date().getTime();
+	var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+		var r = (d + Math.random()*16)%16 | 0;
+		d = Math.floor(d/16);
+		return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+	});
+	this.story_id = uuid;
+};
+
+//check for empty string
+SkribblSchema.path('story_name').validate(/\S+/);
+SkribblSchema.path('content').validate(/\S+/);
+SkribblSchema.path('genre').validate(/\S+/);
+
+modue.exports mongoose.model('Skribbl', SkribblSchema);
