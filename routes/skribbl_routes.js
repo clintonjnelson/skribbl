@@ -24,7 +24,7 @@ module.exports = function( router, passport ) {
         return res.status(500).json({ "success": "false" });
       }
       res.json({ "success": "true" });
-    })
+    });
   });
 
   router.get( '/skribbl/:id', function( req, res ) {
@@ -34,7 +34,7 @@ module.exports = function( router, passport ) {
         return res.status(500).json({ message: 'Database Error' });
       }
       res.json( data );
-    })
+    });
   });
 
-}
+};
