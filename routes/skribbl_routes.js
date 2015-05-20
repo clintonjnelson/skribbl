@@ -51,11 +51,11 @@ module.exports = function( router, passport ) {
     });
   });
 
-  router.get( '/skribbl/trace/:id' function( req, res ) {
+  router.get( '/skribbl/trace/:id', function( req, res ) {
     traceStory( req.params.id, [], function( err, finalTrace ) {
       if ( err ) {
         console.log( err );
-        res.status(404).json({ message: Not Found });
+        res.status(404).json({ message: 'Not Found' });
       }
       res.json( finalTrace );
     })
