@@ -23,7 +23,7 @@ describe('Story routes', function() {
 		populateDB(5, function(){
 			Skribbl.find({}, function(err, skribbl){
 				if (err) throw err;
-				validid = skribbl[0]['_id'];
+				validid = skribbl[0]._id;
 				done();
 			});
 		});
