@@ -1,6 +1,7 @@
 'use strict';
 
 var bodyparser   = require('body-parser');
+var buildTree    = require('../lib/tree3_by_id').buildTree;
 var eatAuth      = require('../lib/eat_auth.js')(process.env.AUTH_SECRET);
 var EventEmitter = require('events').EventEmitter;
 var guide        = new EventEmitter();
@@ -32,8 +33,6 @@ module.exports = function( router, passport ) {
 
   router.get( '/skribbl/:id', function( req, res ) {
     Skribbl.findOne({ _id: req.params.id }, function( err, topParent ) {
-      var buildTree = require('../lib/id_grand_tree').buildTree;
-      // var addGrandChildren = require('../lib/id_grand_tree.js').addGrandChildren;
 
       if ( err ) {
         console.log( 'Error Finding Top Level Skribbl Parent. Error: ', err );
