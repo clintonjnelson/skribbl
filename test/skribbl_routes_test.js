@@ -21,7 +21,7 @@ describe('Skribble routes', function() {
 		genre: 'silly',
 		author: 'slimeball'
 	};
-	describe('POST /api/skribbl', function (){
+	describe.skip('POST /api/skribbl', function (){
 		describe('with valid inputs', function(){
 			it.skip('should return {success: true}', function(done){
 				chai.request('localhost:3000')
@@ -82,10 +82,12 @@ describe('Skribble routes', function() {
 	});
 
 	describe('GET /skribbl/:id', function() {
-		before(function(done) {
+		var origSkribblId;
+    before(function(done) {
 	    var skribblArr = [];
 	    var skribblData;
-	    for (var entry, i = 0 ; i<5; i++) {
+	    var numSkribbls = 5;
+      for (var entry, i = 0 ; i<numSkribbls; i++) {
 	      entry = {
 	        content: 'it was a dark and stormy night' + i,
 	        created_at: new Date(),
@@ -98,25 +100,67 @@ describe('Skribble routes', function() {
 
 		  var newSkribbl;
       var prevSkribbl;
-	  	var counter = 0;
-	    while(counter < skribblArr.length) {
-	      newSkribbl = new Skribbl(skribblArr[counter]);
-	      if (counter > 0) { newSkribbl.parent_skribbl = prevSkribbl._id }
+      skribblArr.forEach(function(skrib, index, origArr) {
+          newSkribbl = new Skribbl(skrib);
+          if (index === 0) { origSkribblId             = newSkribbl._id;  }
+          if (index > 0  ) { newSkribbl.parent_skribbl = prevSkribbl._id; }
 
-	      newSkribbl.save(function(err, data) {  // jshint ignore:line
-	        if (err) { throw err; }
-	        this.newSkribbl = data;
-          prevSkribbl = data;
-	      }.bind(this));
-	      	counter++;
-	    }
-	    done();
+          (function(newSkrib, ind, skribArr) {     // IFFE for async closure
+    	      newSkribbl.save(function(err, data) {  // jshint ignore:line
+              if (err) { throw err; }
+              if( ind === skribArr.length - 1) {
+                done();
+              }
+  	        });                                    // jshint ignore:line
+          })(newSkribbl, index, skribblArr);
+
+          prevSkribbl = newSkribbl;
+	    });
 	  });
+    // describe('before function', function() {
+    //   it('loads the database', function(done) {
+    //     Skribbl.find({}, function(err, data) {
+    //       console.log('DATABASE LOOKS LIKE THIS: ', data);
+    //       done();
+    //     });
+    //   });
+    // });
 
 		describe('with VALID id', function() {
-      it('returns a tree with the orig at the top');
-      it('returns a tree with the children array nested in the parent skribbl');
-      it('returns a tree with the gran')
+      it('returns an array of the results found', function(done) {
+        chai.request('localhost:3000')
+          .get('/api/skribbl/' + origSkribblId)
+          .end(function(err, res) {
+            expect(err).to.eq(null);
+            expect(res.body instanceof Array).to.eq(true);
+            done();
+          });
+      });
+      it('returns an array of children in the parent', function(done) {
+        chai.request('localhost:3000')
+          .get('/api/skribbl/' + origSkribblId)
+          .end(function(err, res) {
+            expect(err).to.eq(null);
+            var topParent = res.body[0];
+            expect(topParent.children instanceof Array).to.eq(true);
+            done();
+          });
+      });
+      it('returns a an array of grandchildren per child', function(done) {
+        chai.request('localhost:3000')
+          .get('/api/skribbl/' + origSkribblId)
+          .end(function(err, res) {
+            expect(err).to.eq(null);
+            var topParent = res.body[0];
+            var childOne = topParent.children[0];
+            console.log('---------- TEST RESULTS -----------');
+            console.log('PARENT: ', topParent);
+            console.log('CHILD ONE: ', childOne);
+            console.log('GRANDCHILDREN: ', childOne.children);
+            expect(childOne.children instanceof Array).to.eq(true);
+            done();
+          });
+      });
 		});
 
     after(function(done) {
