@@ -24,7 +24,7 @@ describe('Skribble routes', function() {
 	};
 	describe('POST /api/skribbl', function (){
 		describe('with valid inputs', function(){
-			it('should return {success: true}', function(done){
+			it.skip('should return {success: true}', function(done){
 				chai.request('localhost:3000')
 					.post('/api/skribbl')
 					.send(good_skribbl)
