@@ -3,7 +3,7 @@ An app where users add their part to growing stories.
 
 **TO DO:**
 - [x] Setup Github Repo
-- [ ] Setup Basic App Skeleton of Backend
+- [x] Setup Basic App Skeleton of Backend
 - [ ] Decide End Goal of App
 - [ ] App Layout
   - [ ] Front End

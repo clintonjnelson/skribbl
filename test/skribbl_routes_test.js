@@ -16,15 +16,14 @@ require('../server.js');
 describe('Skribble routes', function() {
 	var good_skribbl = {
 		content: 'it was a dark and stormy night',
-		story_id: 123412,
+		story_id: '555abbcf647c2b792bbfea5c',
 		story_name: 'the last night in qroakerville',
-			//parent_skribbl: 'sldkjsldfj',
 		genre: 'silly',
-		author: 'slimeball',
+		author: 'slimeball'
 	};
 	describe('POST /api/skribbl', function (){
 		describe('with valid inputs', function(){
-			it('should return {success: true}', function(done){
+			it.skip('should return {success: true}', function(done){
 				chai.request('localhost:3000')
 					.post('/api/skribbl')
 					.send(good_skribbl)
