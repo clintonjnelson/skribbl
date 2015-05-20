@@ -72,5 +72,3 @@ describe('Users', function() {
     });
   });
 });
-
-
