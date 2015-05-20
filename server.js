@@ -11,10 +11,6 @@ var authRouter  = express.Router();
 var skribblRouter = express.Router();
 var timelineRouter = express.Router();
 
-
-// TEMP ENV VARIABLE SET HERE FOR DEVELOPMENT - CHANGE!
-process.env.AUTH_SECRET = 'setThisVarInENV';
-
 // Connect mongoose to MongoDB
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/OPAAT_dev');
 
