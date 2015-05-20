@@ -3,7 +3,7 @@
 var mongoose = require('mongoose');
 
 var SkribblSchema = mongoose.Schema({
-	story_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Skribbl', required: true},
+	story_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Skribbl', required: false},
 	story_name: {type: String, required: true},
 	content: {type: String, required: true},
 	author: {type: String, ref: 'Skribbl', required: true},
