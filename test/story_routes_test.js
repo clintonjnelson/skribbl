@@ -5,7 +5,7 @@ var chaihttp = require('chai-http');
 var expect = chai.expect;
 var mongoose = require('mongoose');
 var Skribbl = require('../models/skribbl.js');
-var populateDB = require('../lib/populate_DB.js');
+var populateDB = require('../lib/pop_db.js').loremStorys;
 var _ = require('lodash');
 chai.use(chaihttp);
 
@@ -20,7 +20,7 @@ describe('Story routes', function() {
 
 	var validid = null;
 	before(function(done) {
-		populateDB(function(){
+		populateDB(5, function(){
 			Skribbl.find({}, function(err, skribbl){
 				if (err) throw err;
 				validid = skribbl[0]['_id'];

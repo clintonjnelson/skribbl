@@ -36,6 +36,7 @@
     "grunt-nodemon": "^0.4.0",
     "jscs": "^1.13.1",
     "jshint": "^2.7.0",
+    "lorem-ipsum": "^1.0.1",
     "mocha": "^2.2.5"
   },
   "dependencies": {
