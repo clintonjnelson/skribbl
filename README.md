@@ -34,7 +34,7 @@ Returns:
 Will use basic http authorization to log user in and return an EAT. Authorization is not session based.
 Accepts: Authorization header with Base64 encoded username & password.
 On Success: `{ "success": true, token: $token }`
-On Fail: `{ "success": false, token: null }`
+On Fail: `{}`
 
 ### Skribbl Resource
 #### POST -> 'api/skribbl/'
