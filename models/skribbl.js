@@ -3,13 +3,13 @@
 var mongoose = require('mongoose');
 
 var SkribblSchema = mongoose.Schema({
-	story_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Skribbl', required: false},
-	story_name: {type: String, required: true},
-	content: {type: String, required: true},
-	author: {type: String, ref: 'Skribbl', required: true},
-	created_at: {type: Date, required: true},
+	story_id: 			{type: mongoose.Schema.Types.ObjectId, ref: 'Skribbl', required: false},
+	story_name: 		{type: String, required: true},
+	content: 				{type: String, required: true},
+	author: 				{type: String, ref: 'Skribbl', required: true},
+	created_at: 		{type: Date, required: true},
 	parent_skribbl: {type: mongoose.Schema.Types.ObjectId, ref: 'Skribbl', required: false},
-	genre: String
+	genre: 								 String
 });
 
 SkribblSchema.methods.generateStoryId = function(){
