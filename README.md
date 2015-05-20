@@ -33,7 +33,7 @@ Returns:
 #### GET -> '/api/login'
 Will use basic http authorization to log user in and return an EAT. Authorization is not session based.
 Accepts: Authorization header with Base64 encoded username & password.
-On Success: `{ "success": true, token: $token }`
+On Success: `{ "success": true, token: $token }`   *(status: 500)*
 On Fail: `{}`
 
 ### Skribbl Resource
@@ -54,7 +54,8 @@ Returns:
 #### GET -> 'api/skribbl/:id'
 This will be the most useful endpoint returning the meat of the API.
 Accepts: unique ID number for individual skribbl item.
-Returns:
+On Failure Returns: `[]`  *(status: 500)*
+On Success Returns:
 ```
 {
   "id": 0,

@@ -12,6 +12,7 @@ module.exports = function( router, passport ) {
 
   router.use( bodyparser.json() );
 
+  // Create skribbl
   router.post( '/skribbl', function( req, res ) {
     var newSkribbl = new Skribbl({
       content:        req.body.content,
@@ -31,15 +32,19 @@ module.exports = function( router, passport ) {
     });
   });
 
+  // Get skribbls 2-levels below provided skribbl
   router.get( '/skribbl/:id', function( req, res ) {
     Skribbl.findOne({ _id: req.params.id }, function( err, topParent ) {
-
       if ( err ) {
         console.log( 'Error Finding Top Level Skribbl Parent. Error: ', err );
-        return res.status(500).json({ msg: 'Database Error' });
+        return res.status(500).json( [] );
       }
 
-      buildTree(topParent, function(finalTree) {
+      buildTree(topParent, function(err, finalTree) {
+        if (err) {
+          console.log('Error populating child/grandchild skribbls. Error: ', err);
+          return res.status(500).json( [] );
+        }
         res.json( [finalTree] );
       });
 
