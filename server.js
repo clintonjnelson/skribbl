@@ -16,7 +16,7 @@ var timelineRouter = express.Router();
 process.env.AUTH_SECRET = 'setThisVarInENV';
 
 // Connect mongoose to MongoDB
-mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/OPAAT_dev');
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/skribbl_dev');
 
 // initialize passport strategy & configure w/ passport_strategy.js
 app.use(passport.initialize());
