@@ -64,22 +64,21 @@ module.exports = function loadUserRoutes(router) {
     });
   });
 
-  // Destroy user - CURRENTLY UNUSED
+  // Destroy user
   router.delete('/users/:username', eatAuth, function(req, res) {
     var username = req.params.username;
-    if (username !== req.user.username) {  // verify ownership
-      console.log('User tried to delete another user.');
+
+    if (req.user.role !== "admin") {  // verify ownership
+      console.log('User without admin privileges tried to delete a user.');
       return res.status(401).json({msg: 'Unauthorized.'});
     }
 
-    User.findOneAndRemove({'username': username}, function(err, data) {
-      if (err) {
-        console.log('Error deleting user. Error: ', err);
-        return res.status(500). json({msg: 'internal server error'});
-      }
-
-      res.json({msg: (data && data.result && data.result.n ? 'user removed' : 'user could not be removed') || 'probably success' });
+    User.findOne({ username: req.params.username }, function (err, user){
+      user.suspended = true;
+      user.save();
     });
+
+    res.json({msg: "success"});
   });
 };
 
