@@ -6,6 +6,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test'    );
 	grunt.loadNpmTasks('grunt-contrib-watch' );
 	grunt.loadNpmTasks('grunt-nodemon');
+	grunt.loadNpmTasks('grunt-execute');
 
   // Configure Tasks
   grunt.initConfig({
@@ -55,6 +56,11 @@ module.exports = function(grunt) {
 				options: { spawn: false }
 			}
 		},
+		execute: {
+			target: {
+				src: ['./lib/task/populate_db_task.js']
+			}
+		},
     mochaTest: {
       test: {
         options: {
@@ -70,20 +76,6 @@ module.exports = function(grunt) {
 
   // Custom Task Chains
   grunt.registerTask('test', ['jshint:dev', 'jscs', 'mochaTest']);
+	grunt.registerTask('popdb', ['execute']);
   grunt.registerTask('default' ,['test']);
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
