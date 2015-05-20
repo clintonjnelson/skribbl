@@ -80,4 +80,63 @@ describe('Skribble routes', function() {
 			});
 		});
 	});
+
+	describe('GET /skribbl/:id', function() {
+		before(function(done) {
+	    var skribblArr = [];
+	    var skribblData;
+	    for (var entry, i = 0 ; i<5; i++) {
+	      entry = {
+	        content: 'it was a dark and stormy night' + i,
+	        created_at: new Date(),
+	        story_name: 'the last night in qroakerville',
+	        genre: 'silly',
+	        author: 'stephievictoria',
+	      };
+		    skribblArr.push(entry);
+		  }
+
+		  var newSkribbl;
+      var prevSkribbl;
+	  	var counter = 0;
+	    while(counter < skribblArr.length) {
+	      newSkribbl = new Skribbl(skribblArr[counter]);
+	      if (counter > 0) { newSkribbl.parent_skribbl = prevSkribbl._id }
+
+	      newSkribbl.save(function(err, data) {  // jshint ignore:line
+	        if (err) { throw err; }
+	        this.newSkribbl = data;
+          prevSkribbl = data;
+	      }.bind(this));
+	      	counter++;
+	    }
+	    done();
+	  });
+
+		describe('with VALID id', function() {
+      it('returns a tree with the orig at the top');
+      it('returns a tree with the children array nested in the parent skribbl');
+      it('returns a tree with the gran')
+		});
+
+    after(function(done) {
+      mongoose.connection.db.dropDatabase(function() {
+        done();
+      });
+    });
+	});
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
