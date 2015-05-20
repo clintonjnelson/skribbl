@@ -4,19 +4,20 @@ var chai     = require('chai');
 var chaihttp = require('chai-http');
 var expect   = chai.expect;
 var mongoose = require('mongoose');
-var populateDB = require("../lib/populate_DB");
+var populateDB = require("../lib/pop_db").loremStorys;
 chai.use(chaihttp);
 
 // Use test db
-process.env.MONGOLAB_URI = 'mongodb://localhost/OPAAT_test';
+process.env.MONGOLAB_URI = 'mongodb://localhost/skribbl_test';
 
 // Start api server for testing
 require('../server.js');
 
 describe("TIMELINE routes", function() {
   before(function(done) {
-    populateDB();
-    done();
+    populateDB(5, function() {
+      done();
+    });
   });
 
   it("should return an array", function(done) {
