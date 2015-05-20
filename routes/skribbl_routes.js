@@ -1,51 +1,53 @@
 'use strict';
 
-var bodyparser = require('body-parser');
-var eatAuth    = require('../lib/eat_auth.js')(process.env.AUTH_SECRET);
-var Skribbl    = require('../models/skribbl.js');
+var bodyparser   = require('body-parser');
+var buildTree    = require('../lib/tree3_by_id').buildTree;
+var eatAuth      = require('../lib/eat_auth.js')(process.env.AUTH_SECRET);
+var EventEmitter = require('events').EventEmitter;
+var guide        = new EventEmitter();
+var Skribbl      = require('../models/skribbl.js');
+
 
 module.exports = function( router, passport ) {
 
   router.use( bodyparser.json() );
 
+  // Create skribbl
   router.post( '/skribbl', function( req, res ) {
     var newSkribbl = new Skribbl({
-      content: req.body.content,
-      created_at: new Date(),
-      story_id: req.body.story_id,
-      story_name: req.body.story_name,
-      genre: req.body.genre,
+      content:        req.body.content,
+      created_at:     new Date(),
+      story_id:       req.body.story_id,
+      story_name:     req.body.story_name,
+      genre:          req.body.genre,
       parent_skribbl: req.body.parent_skribbl,
-      author: req.body.author,
+      author:         req.body.author,
     });
     newSkribbl.save(function( err, skribbl ) {
       if ( err ) {
-        console.log( err );
+        console.log( 'Error saving new skribbl. Error: ', err );
         return res.status(500).json({ "success": false });
       }
       res.json({ "success": true });
     });
   });
 
+  // Get skribbls 2-levels below provided skribbl
   router.get( '/skribbl/:id', function( req, res ) {
-    Skribbl.findOne({ _id: req.params.id }, function( err, parent_skribbl ) {
+    Skribbl.findOne({ _id: req.params.id }, function( err, topParent ) {
       if ( err ) {
-        console.log( err );
-        return res.status(500).json({ message: 'Database Error' });
+        console.log( 'Error Finding Top Level Skribbl Parent. Error: ', err );
+        return res.status(500).json( [] );
       }
-      Skribbl.find({ parent_skribbl: parent_skribbl._id }, function( err, first_children ) {
-        if ( err ) {
-          console.log( err );
-          return res.status(500).json({ message: 'Database Error' });
+
+      buildTree(topParent, function(err, finalTree) {
+        if (err) {
+          console.log('Error populating child/grandchild skribbls. Error: ', err);
+          return res.status(500).json( [] );
         }
-        var childArray = [];
-        first_children.forEach(function( el, i ) {
-          childArray.push( el );
-        });
-        var skribblTree = JSON.parse( JSON.stringify( parent_skribbl ) );
-        skribblTree.children = childArray;
-        res.json( skribblTree );
+        res.json( [finalTree] );
       });
+
     });
   });
 };
