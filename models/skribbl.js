@@ -3,20 +3,18 @@
 var mongoose = require('mongoose');
 
 var SkribblSchema = mongoose.Schema({
-	story_id: {type: Number, required: true},
+	story_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Skribbl', required: false},
 	story_name: {type: String, required: true},
-	author: {type: Schemas.Types.ObjectId, ref: 'Skribbl', required: true},
 	content: {type: String, required: true},
+	author: {type: String, ref: 'Skribbl', required: true},
 	created_at: {type: Date, required: true},
-	parent_skribble: {type: Schemas.Types.ObjectId, ref: 'Skribbl', required: true},
-	story_path: [],
+	parent_skribbl: {type: mongoose.Schema.Types.ObjectId, ref: 'Skribbl', required: false},
 	genre: String
 });
 
 SkribblSchema.methods.generateStoryId = function(){
 	if (this.story_id) return;
-	if this.story_id = 
-		var d = new Date().getTime();
+	var d = new Date().getTime();
 	var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
 		var r = (d + Math.random()*16)%16 | 0;
 		d = Math.floor(d/16);
@@ -25,8 +23,8 @@ SkribblSchema.methods.generateStoryId = function(){
 	this.story_id = uuid;
 };
 
-//check for empty string
-SkribblSchema.path('story_name').validate(/function(value){
+// check for empty string
+SkribblSchema.path('story_name').validate(function(value){
 	return /\S+/.test(value);
 });
 SkribblSchema.path('content').validate(function(value){

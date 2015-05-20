@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 // DB Schema for User
 var UserSchema = mongoose.Schema({
   eat: Number,
-  username:   { type: String, required: true , unique: true},
+  username:   { type: String, required: true, unique: true},
   basic: {
     email:    { type: String, required: true, unique: true },
     password: { type: String, required: true               }
@@ -44,14 +44,13 @@ UserSchema.methods.generateToken = function generateToken(secret, callback) {
 
   this.save(function(err, user) {
     if (err) {
-      console.log('Error saving new user.eat value. Error: ', err);
-      callback(err, null);
+      return callback(err, null);
     }
 
     eat.encode({eat: user.eat}, secret, function encodeEat(err, eatoken) {
       if (err) {
         console.log('Error encoding eat. Error: ', err);
-        callback(err, null);
+        return callback(err, null);
       }
       callback(err, eatoken);
     });

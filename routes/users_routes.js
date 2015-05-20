@@ -3,6 +3,7 @@
 var bodyparser = require('body-parser');
 var eatAuth    = require('../lib/eat_auth.js')(process.env.AUTH_SECRET);
 var User       = require('../models/User.js');
+var _          = require("lodash");
 
 
 module.exports = function loadUserRoutes(router) {
@@ -21,13 +22,17 @@ module.exports = function loadUserRoutes(router) {
     newUser.generateHash(req.body.password, function(hash) {
       newUser.basic.password = hash;
       newUser.save(function(err, user) {
+        if (err && _.contains(err.errmsg, "$user")) {
+          return res.status(500).json({success: false, usernamePass: false, emailPass: null, passwordPass: null});
+        }
+        if (err && _.contains(err.errmsg, ".email")) {
+          return res.status(500).json({success: false, usernamePass: true, emailPass: false, passwordPass: null});
+        }
         if (err) {
-          console.log('Error saving user. Error: ', err);
-          // TODO: ADD RESPONSES FOR ERROR TYPE: username? email? password?
-          return res.status(500).json({success: false});
+          return res.status(500).json({success: false,  usernamePass: null, emailPass: null, passwordPass: null});
         }
 
-        res.json({success: true, msg: 'user created'});
+        res.json({success: true, usernamePass: true, emailPass: true, passwordPass: null});
       });
     });
   });
