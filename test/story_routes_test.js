@@ -24,7 +24,6 @@ describe('Story routes', function() {
 			Skribbl.find({}, function(err, skribbl){
 				if (err) throw err;
 				validid = skribbl[0]['_id'];
-				console.log(validid);
 				done();
 			});
 		});
@@ -52,7 +51,6 @@ describe('Story routes', function() {
 					.get(route)
 					.end(function(err, res){
 						expect(err).to.eql(null);
-						console.log(res.body);
 						expect(res.body.length).to.be.above(0);
 						done();
 					});
@@ -62,13 +60,12 @@ describe('Story routes', function() {
 
 	describe('GET /api/story/:id', function (){
 		describe('with invalid id', function(){
-			it('req.body should ',function(done){
+			it('req.body should be empty',function(done){
 				var route = "/api/story/" + '555555555555555555555555' ;
 				chai.request('localhost:3000')
 					.get(route)
 					.end(function(err, res){
 						expect(err).to.eql(null);
-						console.log(res.body)
 						expect(_.isEmpty( res.body)).to.eql(true);
 						done();
 					});
@@ -76,8 +73,8 @@ describe('Story routes', function() {
 		});
 	});
 	after(function(done) {
-		//mongoose.connection.db.dropDatabase(function() {
+		mongoose.connection.db.dropDatabase(function() {
 			done();
-		//});
+		});
 	});
 });

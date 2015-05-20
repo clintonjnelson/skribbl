@@ -22,11 +22,10 @@ module.exports = function(router){
 				return res.status(500).json({});
 			}
 			if (ha.length === 0) {
-				console.log(err);
+				console.log('error: invalid id');
 				return res.status(500).json({});
 			}	
-			console.log(ha);
-			Skribbl.find({_id: {$gt: req.params.id},parent: {}},{},{limit:20} ,function(err, storys){
+			Skribbl.find({_id: {$gt: req.params.id},parent: null},{},{limit:20} ,function(err, storys){
 				if(err) {
 					console.log(err);
 					return res.status(500).json({});
