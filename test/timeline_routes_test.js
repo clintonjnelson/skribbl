@@ -5,7 +5,7 @@ var chaihttp = require('chai-http');
 var expect   = chai.expect;
 var mongoose = require('mongoose');
 // var User     = require('../models/User.js');
-var skribbl = require("../models/skribbl.js");
+var Skribbl = require("../models/skribbl.js");
 chai.use(chaihttp);
 
 // Use test db
@@ -32,7 +32,7 @@ describe("TIMELINE routes", function() {
 
   var counter = 0;
     while(counter < array.length) {
-      var newSkribbl = new skribbl(array[counter]);
+      var newSkribbl = new Skribbl(array[counter]);
       newSkribbl.save(function(err, data) {  // jshint ignore:line
         if (err) { throw err; }
         this.newSkribbl = data;
