@@ -9,6 +9,7 @@ var app      = express();
 var usersRouter = express.Router();
 var authRouter  = express.Router();
 var skribblRouter = express.Router();
+var storyRouter = express.Router();
 
 // TEMP ENV VARIABLE SET HERE FOR DEVELOPMENT - CHANGE!
 process.env.AUTH_SECRET = 'setThisVarInENV';
@@ -24,11 +25,13 @@ require('./lib/passport_strategy.js')(passport);
 require('./routes/users_routes.js')(usersRouter);
 require('./routes/auth_routes.js' )(authRouter, passport);
 require('./routes/skribbl_routes.js')(skribblRouter);
+require('./routes/story_routes.js')(storyRouter);
 
 // Assign base routes for routers
 app.use('/api', usersRouter);
 app.use('/api', authRouter );
 app.use('/api', skribblRouter );
+app.use('/api', storyRouter);
 
 // Start server
 app.listen(process.env.PORT || 3000, function() {
