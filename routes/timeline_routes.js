@@ -11,6 +11,7 @@ module.exports = function(router) {
         console.log( err );
         return res.status(500).json({ "success": false });
       }
+      console.log(info);
       res.json(info);
     });
   });
