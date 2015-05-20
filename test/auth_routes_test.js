@@ -71,7 +71,7 @@ describe('Authentication', function() {
       after(function(done) {
         mongoose.connection.db.dropDatabase(function(){ done(); });
       });
-      it('returns an empty object', function(done) {
+      it('returns empty {} object', function(done) {
         expect(responseBody).to.eql({});
         done();
       });
@@ -97,7 +97,7 @@ describe('Authentication', function() {
         mongoose.connection.db.dropDatabase(function(){ done(); });
       });
 
-      it('returns success:false', function(done) {
+      it('returns empty {} object', function(done) {
         expect(responseBody).to.eql({});
         done();
       });
