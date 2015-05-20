@@ -9,10 +9,11 @@ var app      = express();
 var usersRouter = express.Router();
 var authRouter  = express.Router();
 var skribblRouter = express.Router();
+var storyRouter = express.Router();
 var timelineRouter = express.Router();
 
 // Connect mongoose to MongoDB
-mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/OPAAT_dev');
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/skribbl_dev');
 
 // initialize passport strategy & configure w/ passport_strategy.js
 app.use(passport.initialize());
@@ -22,15 +23,15 @@ require('./lib/passport_strategy.js')(passport);
 require('./routes/users_routes.js')(usersRouter);
 require('./routes/auth_routes.js' )(authRouter, passport);
 require('./routes/skribbl_routes.js')(skribblRouter);
+require('./routes/story_routes.js')(storyRouter);
 require('./routes/timeline_routes.js')(timelineRouter);
 
 // Assign base routes for routers
 app.use('/api', usersRouter);
 app.use('/api', authRouter );
 app.use('/api', skribblRouter );
+app.use('/api', storyRouter);
 app.use('/api', timelineRouter );
-
-
 
 // Start server
 app.listen(process.env.PORT || 3000, function() {
