@@ -9,7 +9,7 @@ var Skribbl    = require('../models/skribbl.js');
 chai.use(chaihttp);
 
 // Use test db
-process.env.MONGOLAB_URI = 'mongodb://localhost/OPAAT_test';
+process.env.MONGOLAB_URI = 'mongodb://localhost/skribbl_test';
 
 // Start api server for testing
 require('../server.js');
