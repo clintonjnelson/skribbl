@@ -73,7 +73,7 @@ describe('Skribble routes', function() {
           });
       });
 
-      it('should return {success: true}', function(done){
+      it('should return {success: false}', function(done){
         chai.request('localhost:3000')
           .post('/api/skribbl')
           .send(good_skribbl)
@@ -81,6 +81,7 @@ describe('Skribble routes', function() {
           .end(function(err, res){
             expect(err).to.eql(null);
             expect(res.body.msg).to.eql("Not allowed: suspended user");
+            expect(res.body.success).to.eq("false");
             done();
           });
       });
