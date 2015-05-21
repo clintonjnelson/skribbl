@@ -14,22 +14,50 @@ process.env.MONGOLAB_URI = 'mongodb://localhost/skribbl_test';
 // Start api server for testing
 require('../server.js');
 
+
 describe('Skribble routes', function() {
-	var good_skribbl = {
-		content: 'it was a dark and stormy night',
-		story_id: '555abbcf647c2b792bbfea5c',
-		story_name: 'the last night in qroakerville',
-		genre: 'silly',
-		author: 'slimeball'
-	};
+  var good_eats;
+  var good_user    = {
+    username: 'unicorn',
+    email:    'unicorn@example.com',
+    password: 'foobar'
+  };
+  var good_skribbl = {
+    content: 'it was a dark and stormy night',
+    story_id: '555abbcf647c2b792bbfea5c',
+    story_name: 'the last night in qroakerville',
+    genre: 'silly',
+    author: 'slimeball'
+  };
+
+	before(function(done) {
+    chai.request('localhost:3000')
+      .post('/api/users')
+      .send(good_user)
+      .end(function(err, res) {
+        chai.request('localhost:3000')
+          .get('/api/login')
+          .auth(good_user.email, good_user.password)
+          .end(function(err, res) {
+            good_eats = res.body.eat;
+            done();
+          });
+      });
+  });
+  after(function(done) {
+    mongoose.connection.db.dropDatabase(function() { done(); });
+  });
+
+
 	describe('POST /api/skribbl', function (){
-		describe('with valid inputs', function(){
-			it.skip('should return {success: true}', function(done){
+    describe('with valid inputs', function(){
+			it('should return {success: true}', function(done){
 				chai.request('localhost:3000')
 					.post('/api/skribbl')
 					.send(good_skribbl)
+          .send({eat: good_eats})
 					.end(function(err, res){
-						expect(err).to.eql(null);
+            expect(err).to.eql(null);
 						expect(res.body.success).to.eql(true);
 						done();
 					});
@@ -43,6 +71,7 @@ describe('Skribble routes', function() {
 				chai.request('localhost:3000')
 					.post('/api/skribbl')
 					.send(good_skribbl)
+          .send({eat: good_eats})
 					.end(function(err, res){
 						expect(err).to.eql(null);
 						expect(res.body.success).to.eql(false);
@@ -58,6 +87,7 @@ describe('Skribble routes', function() {
 				chai.request('localhost:3000')
 					.post('/api/skribbl')
 					.send(good_skribbl)
+          .send({eat: good_eats})
 					.end(function(err, res){
 						expect(err).to.eql(null);
 						expect(res.body.success).to.eql(false);
@@ -73,6 +103,7 @@ describe('Skribble routes', function() {
 				chai.request('localhost:3000')
 					.post('/api/skribbl')
 					.send(good_skribbl)
+          .send({eat: good_eats})
 					.end(function(err, res){
 						expect(err).to.eql(null);
 						expect(res.body.success).to.eql(false);
@@ -80,16 +111,35 @@ describe('Skribble routes', function() {
 					});
 			});
 		});
+
+    describe('WITHOUT eat auth token', function() {
+      it('returns status:401 and success: false', function(done) {
+        chai.request('localhost:3000')
+          .post('/api/skribbl')
+          .send(good_skribbl)
+          .send({eat: good_eats})
+          .end(function(err, res){
+            expect(err).to.eql(null);
+            expect(res.body.success).to.eql(false);
+            done();
+          });
+      });
+    });
 	});
+
 
 	describe('GET /skribbl/:id', function() {
 		var requestedId;
     before(function(done) {
-      populateDB(5, function() {
-        Skribbl.find({}, function(err, skribbls) {
-          if (err) throw err;
-          requestedId = skribbls[0]._id;
-          done();
+      mongoose.connection.db.dropDatabase(function() {
+        mongoose.connect(process.env.MONGOLAB_URI, {}, function() {
+          populateDB(5, function() {
+            Skribbl.find({}, function(err, skribbls) {
+              if (err) throw err;
+              requestedId = skribbls[0]._id;
+              done();
+            });
+          });
         });
       });
     });

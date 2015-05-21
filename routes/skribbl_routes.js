@@ -13,7 +13,7 @@ module.exports = function( router, passport ) {
   router.use( bodyparser.json() );
 
   // Create skribbl
-  router.post( '/skribbl', function( req, res ) {
+  router.post( '/skribbl', eatAuth, function( req, res ) {
     var newSkribbl = new Skribbl({
       content:        req.body.content,
       created_at:     new Date(),
