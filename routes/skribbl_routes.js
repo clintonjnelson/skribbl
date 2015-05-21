@@ -67,7 +67,7 @@ module.exports = function( router, passport ) {
       traceStory( skribbl, trace, function( err, finalTrace ) {
         if ( err ) {
           console.log( err );
-          res.status(500).json({ message: 'Not Found' });
+          return res.status(500).json({ message: 'Not Found' });
         }
         res.json( finalTrace );
       });
