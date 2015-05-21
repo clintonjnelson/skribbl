@@ -1,11 +1,14 @@
 'use strict';
 
-var chai     = require('chai');
-var chaihttp = require('chai-http');
-var expect   = chai.expect;
-var mongoose = require('mongoose');
-var User     = require('../models/User.js');
-var colors = require("colors");
+var chai      = require('chai');
+var chaihttp  = require('chai-http');
+var expect    = chai.expect;
+var mongoose  = require('mongoose');
+var User      = require('../models/User.js');
+var colors    = require("colors");
+var theToken  = {};
+var adminUser = {username: 'rainbow', email: 'rainbow@example.com', role: "admin", password: 'foobar123'};
+
 chai.use(chaihttp);
 
 // Use test db
@@ -55,6 +58,7 @@ describe('Users', function() {
     // should probably use a before block
     describe("WITH an existing user", function() {
       describe("with INVALID input", function() {
+
         it.skip("returns a fail JSON object due to duplicate username", function(done) {
           chai.request("localhost:3000")
             .post("/api/users")
@@ -84,9 +88,9 @@ describe('Users', function() {
 
   describe("DELETE /api/users/:username", function() {
       describe("WITHOUT admin privileges", function() {
-        var theToken = {}; // has to be an object
+        // var theToken = {}
           before(function(done) {
-            chai.request('localhost:3000')  // make call to login user
+            chai.request('localhost:3000')
               .get('/api/login')
               .auth('unicorn@example.com', 'foobar')
               .end(function(err, res) {
@@ -96,7 +100,7 @@ describe('Users', function() {
               });
           });
 
-        it("prevents user from suspending another user", function(done) {
+        it("prevents unauthorized user from suspending another user", function(done) {
           chai.request("localhost:3000")
             .del("/api/users/unicorn")
             .send(theToken)
@@ -109,41 +113,32 @@ describe('Users', function() {
       });
 
     describe("WITH admin privileges", function(done) {
-       before(function(done) {   // Make a new, regular user in db
-          chai.request('localhost:3000')
-            .post('/api/users/')
-            .send({username: 'rainbow', email: 'rainbow@example.com', role: "admin", password: 'foobar123'})
-            .end(function(err, res) {
-              expect(err).to.eq(null);
-              User.findOne({username: 'rainbow'}, function(err, user) { // verify added
-                expect(err).to.eq(null);
-                done();
-              });
-            });
-        });
-
-        var theToken = {}; // has to be an object
-          before(function(done) {
-            chai.request('localhost:3000')  // make call to login user
+      before(function(done) {
+        chai.request('localhost:3000')
+          .post('/api/users')
+          .send(adminUser)
+          .end(function(err, res) {
+            chai.request('localhost:3000')
               .get('/api/login')
-              .auth('rainbow@example.com', 'foobar123')
+              .auth(adminUser.email, adminUser.password)
               .end(function(err, res) {
-                expect(err).to.eq(null);
                 theToken.eat = res.body.eat;
                 done();
               });
           });
+      });
 
-          it("allows admin to suspend user", function(done) {
-             chai.request("localhost:3000")
-            .del("/api/users/unicorn")
-            .send(theToken)
-            .end(function(err, res) {
-              expect(err).to.eql(null);
-              expect(res.body.msg).to.eql("success");
-              done();
-            });
+
+      it("allows admin to suspend user", function(done) {
+        chai.request("localhost:3000")
+          .del("/api/users/unicorn")
+          .send(theToken)
+          .end(function(err, res) {
+            expect(err).to.eql(null);
+            expect(res.body.msg).to.eql("user successfully suspended");
+            done();
           });
       });
     });
+  });
 });

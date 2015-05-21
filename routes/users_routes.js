@@ -4,6 +4,7 @@ var bodyparser = require('body-parser');
 var eatAuth    = require('../lib/eat_auth.js')(process.env.AUTH_SECRET);
 var User       = require('../models/User.js');
 var _          = require("lodash");
+var roleAuth  = require("../lib/role_auth.js");
 
 
 module.exports = function loadUserRoutes(router) {
@@ -38,47 +39,42 @@ module.exports = function loadUserRoutes(router) {
   });
 
   // Update user - CURRENTLY UNUSED
-  router.patch('/users/:username', eatAuth, function(req, res) {
-    console.log('HERE"S THE REQ.BODY FOR UPDATE: ', req.body);
-    var updatedUserInfo = req.body;
-    delete updatedUserInfo._id;
-    delete updatedUserInfo.eat;     // delete encoded token
+  // router.patch('/users/:username', eatAuth, function(req, res) {
+  //   console.log('HERE"S THE REQ.BODY FOR UPDATE: ', req.body);
+  //   var updatedUserInfo = req.body;
+  //   delete updatedUserInfo._id;
+  //   delete updatedUserInfo.eat;     // delete encoded token
 
-    if (username !== req.user.username) {  // verify ownership
-      console.log('User tried to delete another user.');
-      return res.status(401).json({msg: 'Unauthorized.'});
-    }
+  //   if (username !== req.user.username) {  // verify ownership
+  //     console.log('User tried to delete another user.');
+  //     return res.status(401).json({msg: 'Unauthorized.'});
+  //   }
 
-    User.update({'username': req.params.username}, function() {
-      switch(true) {
-        case !!(err && err.code === 11000):
-          return res.json({msg: 'username already exists - please try a different username'});
-        case !!(err && err.username):
-          return res.json({msg: err.username.message.replace('Path', '')});
-        case !!err:
-          console.log(err);
-          return res.status(500).json({msg: 'internal server error'});
-      }
+  //   User.update({'username': req.params.username}, function() {
+  //     switch(true) {
+  //       case !!(err && err.code === 11000):
+  //         return res.json({msg: 'username already exists - please try a different username'});
+  //       case !!(err && err.username):
+  //         return res.json({msg: err.username.message.replace('Path', '')});
+  //       case !!err:
+  //         console.log(err);
+  //         return res.status(500).json({msg: 'internal server error'});
+  //     }
 
-      res.json({msg: 'user updated'});
-    });
-  });
+  //     res.json({msg: 'user updated'});
+  //   });
+  // });
 
   // Destroy user
-  router.delete('/users/:username', eatAuth, function(req, res) {
+  router.delete('/users/:username', eatAuth, roleAuth("admin"), function(req, res) {
     var username = req.params.username;
-
-    if (req.user.role !== "admin") {  // verify ownership
-      console.log('User without admin privileges tried to delete a user.');
-      return res.status(401).json({msg: 'Unauthorized.'});
-    }
 
     User.findOne({ username: req.params.username }, function (err, user){
       user.suspended = true;
       user.save();
     });
 
-    res.json({msg: "success"});
+    res.json({msg: "user successfully suspended"});
   });
 };
 
