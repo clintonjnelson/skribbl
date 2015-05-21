@@ -3,6 +3,7 @@
 var bodyparser = require('body-parser');
 var sample 		 = require('lodash').sample;
 var Skribbl 	 = require('../models/skribbl.js');
+var buildTree  = require('../lib/tree3_by_id').buildTree;
 
 module.exports = function(router){
 	router.use(bodyparser.json());
@@ -19,7 +20,7 @@ module.exports = function(router){
 	});
 
 	// Get a number of random storys (top level skribbls), defaults to 20
-  router.get('/storys/random/:num?', function(req, res) {
+  router.get('/storys/randoms/:num?', function(req, res) {
     Skribbl.find({parent_skribbl: null}, 'id', function(err, skribblIds) {
       var randomSkribbls;
       var num = Number(req.params.num) || Math.min(20, skribblIds.length || 0);
@@ -39,6 +40,31 @@ module.exports = function(router){
       });
     });
   });
+
+	router.get( '/storys/random', function( req, res ) {
+		Skribbl.find({ parent_skribbl: null }).count().exec( function( err, count ) {
+			if ( err ) {
+				console.log( err );
+				return res.status(500).json({ message: 'error' });
+			}
+			var random = Math.floor( Math.random() * count );
+			Skribbl.find({ parent_skribbl: null }).skip( random ).limit( 1 ).exec(
+				function ( err, result ) {
+					if ( err ) {
+						console.log( err );
+						return res.status(500).json({ message: 'error' });
+					}
+					buildTree( result[0] , function(err, finalTree) {
+						if (err) {
+							console.log('Error populating child/grandchild skribbls. Error: ', err);
+							return res.status(500).json( [] );
+						}
+						res.json( [finalTree] );
+					});
+				}
+			)
+		})
+	})
 
   // Get 20 stories from requested :id or newer
 	router.get('/storys/:id', function(req, res) {
