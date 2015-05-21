@@ -62,9 +62,9 @@ module.exports = function(router){
 						res.json( [finalTree] );
 					});
 				}
-			)
-		})
-	})
+			);
+		});
+	});
 
   // Get 20 stories from requested :id or newer
 	router.get('/storys/:id', function(req, res) {

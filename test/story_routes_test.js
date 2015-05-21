@@ -118,9 +118,9 @@ describe('Story routes', function() {
 					expect(err).to.eq( null );
 					expect(res.body[0]).to.have.property('children');
 					done();
-				})
-		})
-	})
+				});
+		});
+	});
 
 	after(function(done) {
 		mongoose.connection.db.dropDatabase(function() {
