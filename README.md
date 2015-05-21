@@ -1,5 +1,5 @@
 
-#One Piece At A Time  [![Build Status](https://travis-ci.org/clintonjnelson/skribbl.svg?branch=master)](https://travis-ci.org/clintonjnelson/skribbl)
+#Skribbl  [![Build Status](https://travis-ci.org/clintonjnelson/skribbl.svg?branch=master)](https://travis-ci.org/clintonjnelson/skribbl)
 An app where users add their part to growing stories.
 **TO DO:**
 - [x] Setup Github Repo
