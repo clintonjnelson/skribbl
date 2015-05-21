@@ -14,22 +14,27 @@ module.exports = function( router, passport ) {
 
   // Create skribbl
   router.post( '/skribbl', eatAuth, function( req, res ) {
-    var newSkribbl = new Skribbl({
-      content:        req.body.content,
-      created_at:     new Date(),
-      story_id:       req.body.story_id,
-      story_name:     req.body.story_name,
-      genre:          req.body.genre,
-      parent_skribbl: req.body.parent_skribbl,
-      author:         req.body.author,
-    });
-    newSkribbl.save(function( err, skribbl ) {
-      if ( err ) {
-        console.log( 'Error saving new skribbl. Error: ', err );
-        return res.status(500).json({ "success": false });
-      }
-      res.json({ "success": true });
-    });
+    var suspendedUser = req.user.suspended;
+    if (!suspendedUser) {
+      var newSkribbl = new Skribbl({
+        content:        req.body.content,
+        created_at:     new Date(),
+        story_id:       req.body.story_id,
+        story_name:     req.body.story_name,
+        genre:          req.body.genre,
+        parent_skribbl: req.body.parent_skribbl,
+        author:         req.body.author,
+      });
+      newSkribbl.save(function( err, skribbl ) {
+        if ( err ) {
+          console.log( 'Error saving new skribbl. Error: ', err );
+          return res.status(500).json({ "success": false });
+        }
+        res.json({ "success": true });
+      });
+    } else {
+      res.json({msg: "Not allowed: suspended user"});
+    }
   });
 
   // Get skribbls 2-levels below provided skribbl

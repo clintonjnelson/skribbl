@@ -5,7 +5,6 @@ var chaihttp  = require('chai-http');
 var expect    = chai.expect;
 var mongoose  = require('mongoose');
 var User      = require('../models/User.js');
-var colors    = require("colors");
 var theToken  = {};
 var adminUser = {username: 'rainbow', email: 'rainbow@example.com', role: "admin", password: 'foobar123'};
 
@@ -88,7 +87,6 @@ describe('Users', function() {
 
   describe("DELETE /api/users/:username", function() {
       describe("WITHOUT admin privileges", function() {
-        // var theToken = {}
           before(function(done) {
             chai.request('localhost:3000')
               .get('/api/login')
@@ -106,7 +104,7 @@ describe('Users', function() {
             .send(theToken)
             .end(function(err, res) {
               expect(err).to.eql(null);
-              expect(res.body.msg).to.eql("Unauthorized.");
+              expect(res.body.msg).to.eql("Unauthorized");
               done();
             });
         });
@@ -127,7 +125,6 @@ describe('Users', function() {
               });
           });
       });
-
 
       it("allows admin to suspend user", function(done) {
         chai.request("localhost:3000")
