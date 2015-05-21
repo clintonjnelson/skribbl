@@ -38,6 +38,16 @@ module.exports = function( router, passport ) {
     }
   });
 
+  router.get( '/skribbl/single/:id', function( req, res ) {
+    Skribbl.findOne({ _id: req.params.id }, function( err, skribbl ) {
+      if ( err ) {
+        console.log( err );
+        return res.status(500).json({ message: 'Not Found' });
+      }
+      res.json( skribbl );
+    });
+  });
+
   // Get skribbls 2-levels below provided skribbl
   router.get( '/skribbl/:id', function( req, res ) {
     Skribbl.findOne({ _id: req.params.id }, function( err, topParent ) {
