@@ -238,9 +238,9 @@ describe('Skribble routes', function() {
 						expect( err ).to.eql(null);
 						expect(res.body.length).to.be.above(0);
 						done();
-					})
-			})
-		})
+					});
+			});
+		});
 
     after(function(done) {
       mongoose.connection.db.dropDatabase(function() {
