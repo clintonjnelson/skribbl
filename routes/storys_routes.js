@@ -1,8 +1,10 @@
 'use strict';
 
 var bodyparser = require('body-parser');
+var reverse    = require('lodash').reverse;
 var sample 		 = require('lodash').sample;
 var Skribbl 	 = require('../models/skribbl.js');
+var trace      = require('../lib/trace_story.js');
 
 module.exports = function(router){
 	router.use(bodyparser.json());
@@ -17,6 +19,46 @@ module.exports = function(router){
 			res.status(200).json(storys);
 		});
 	});
+
+  router.get('/storys/reading/random', function(req, res) {
+    Skribbl.find({}, 'id', function(err, skribblIDs) {
+      var randomSkribbl;
+      if (err) {
+        console.log('Error querying skribls for random story. Error: ', err);
+        return res.status(500).json( '' );
+      }
+      randomSkribbl = sample(skribblIDs);
+
+      console.log('RANDOM SKRIBBL ID IS: ', randomSkribbl);
+      Skribbl.find({'_id': randomSkribbl}, function(req, endSkribbl) {
+        if (err) {
+          console.log('Error querying the random skribbl. Error: ', err);
+          return res.status(500).json( '' );
+        }
+        console.log('RANDOM END SKRIBBL FULL IS: ', endSkribbl[0]);
+
+        trace(endSkribbl[0], [], function(err, storyArr) {
+          var fullStory = '';
+          if (err) {
+            console.log('Error pulling full story trace. Error: ', err);
+            return res.status(500).json( '' );
+          }
+          if (storyArr.length === 0) {
+            return res.json( fullStory.content );
+          }
+          storyArr.reverse();
+
+          storyArr.forEach(function(part, index, origArr) {
+            fullStory += part.content;
+
+            if (index === storyArr.length -1) {  // if last part
+              res.json( fullStory );
+            }
+          });
+        });
+      });
+    });
+  });
 
 	// Get a number of random storys (top level skribbls), defaults to 20
   router.get('/storys/random/:num?', function(req, res) {
