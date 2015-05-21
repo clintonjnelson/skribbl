@@ -81,7 +81,7 @@ describe('Skribble routes', function() {
           .end(function(err, res){
             expect(err).to.eql(null);
             expect(res.body.msg).to.eql("Not allowed: suspended user");
-            expect(res.body.success).to.eq("false");
+            expect(res.body.success).to.eq(false);
             done();
           });
       });
