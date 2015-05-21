@@ -26,7 +26,7 @@ require('./lib/passport_strategy.js')(passport);
 require('./routes/users_routes.js')(usersRouter);
 require('./routes/auth_routes.js' )(authRouter, passport);
 require('./routes/skribbl_routes.js')(skribblRouter);
-require('./routes/story_routes.js')(storyRouter);
+require('./routes/storys_routes.js')(storyRouter);
 require('./routes/timeline_routes.js')(timelineRouter);
 
 // Assign base routes for routers

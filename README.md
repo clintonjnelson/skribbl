@@ -468,8 +468,8 @@ On Success Returns Array of skribbls:
 
 ```
 
-#### GET -> 'api/storys/random'
-This will return 20 random top level skribbls
+#### GET -> 'api/storys/random/' OR 'api/storys/random/10'  *may pass optional number of randoms to return*
+This will return 20 random top level skribbls by default, unless specified otherwise
 Accepts: (nothing but the request)
 On Failure Returns Blank Array: `[]`  *(status: 500)*
 On Success Returns Array of 20 random skribbls:
