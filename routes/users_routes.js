@@ -4,6 +4,7 @@ var bodyparser = require('body-parser');
 var eatAuth    = require('../lib/eat_auth.js')(process.env.AUTH_SECRET);
 var User       = require('../models/User.js');
 var _          = require("lodash");
+var roleAuth  = require("../lib/role_auth.js");
 
 
 module.exports = function loadUserRoutes(router) {
@@ -64,21 +65,16 @@ module.exports = function loadUserRoutes(router) {
     });
   });
 
-  // Destroy user
-  router.delete('/users/:username', eatAuth, function(req, res) {
+  // Destroy user - prevenets user from posting any further skribbls
+  router.delete('/users/:username', eatAuth, roleAuth("admin"), function(req, res) {
     var username = req.params.username;
-
-    if (req.user.role !== "admin") {  // verify ownership
-      console.log('User without admin privileges tried to delete a user.');
-      return res.status(401).json({msg: 'Unauthorized.'});
-    }
 
     User.findOne({ username: req.params.username }, function (err, user){
       user.suspended = true;
       user.save();
     });
 
-    res.json({msg: "success"});
+    res.json({msg: "user successfully suspended"});
   });
 };
 
