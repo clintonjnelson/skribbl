@@ -169,6 +169,7 @@ describe('Skribble routes', function() {
 
 	describe('GET /skribbl/:id', function() {
 		var requestedId;
+		var lastId;
     before(function(done) {
       mongoose.connection.db.dropDatabase(function() {
         mongoose.connect(process.env.MONGOLAB_URI, {}, function() {
@@ -176,6 +177,7 @@ describe('Skribble routes', function() {
             Skribbl.find({}, function(err, skribbls) {
               if (err) throw err;
               requestedId = skribbls[0]._id;
+							lastId = skribbls[ skribbls.length -1 ]._id;
               done();
             });
           });
@@ -228,6 +230,18 @@ describe('Skribble routes', function() {
       });
 		});
 
+		describe('Story Trace', function() {
+			it('should return array of complete story', function( done ) {
+				chai.request('localhost:3000')
+					.get('/api/skribbl/trace/' + lastId )
+					.end(function( err, res ) {
+						expect( err ).to.eql(null);
+						expect(res.body.length).to.be.above(0);
+						done();
+					});
+			});
+		});
+
     after(function(done) {
       mongoose.connection.db.dropDatabase(function() {
         done();
@@ -235,4 +249,3 @@ describe('Skribble routes', function() {
     });
 	});
 });
-
