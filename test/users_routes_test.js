@@ -85,7 +85,7 @@ describe('Users', function() {
     });
   });
 
-  describe("DELETE /api/users/:username", function() {
+  describe("DELETE (suspend) /api/users/:username", function() {
       describe("WITHOUT admin privileges", function() {
           before(function(done) {
             chai.request('localhost:3000')
