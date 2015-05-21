@@ -2,6 +2,7 @@
 
 var bodyparser   = require('body-parser');
 var buildTree    = require('../lib/tree3_by_id').buildTree;
+var traceStory   = require('../lib/trace_story');
 var eatAuth      = require('../lib/eat_auth.js')(process.env.AUTH_SECRET);
 var EventEmitter = require('events').EventEmitter;
 var guide        = new EventEmitter();
@@ -52,7 +53,24 @@ module.exports = function( router, passport ) {
         }
         res.json( [finalTree] );
       });
+    });
+  });
 
+  router.get( '/skribbl/trace/:id', function( req, res ) {
+    Skribbl.findOne({ _id: req.params.id }, function( err, skribbl ) {
+      if ( err ) {
+        console.log( err );
+        return res.status(500).json({ message: 'Not Found' });
+      }
+      var trace = [];
+      trace.push( skribbl );
+      traceStory( skribbl, trace, function( err, finalTrace ) {
+        if ( err ) {
+          console.log( err );
+          return res.status(500).json({ message: 'Not Found' });
+        }
+        res.json( finalTrace );
+      });
     });
   });
 };
