@@ -117,10 +117,9 @@ describe('Skribble routes', function() {
         chai.request('localhost:3000')
           .post('/api/skribbl')
           .send(good_skribbl)
-          .send({eat: good_eats})
           .end(function(err, res){
             expect(err).to.eql(null);
-            expect(res.body.success).to.eql(false);
+            expect(res.status).to.eq(401);
             done();
           });
       });
