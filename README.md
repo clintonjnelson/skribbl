@@ -2,6 +2,7 @@
 #One Piece At A Time  [![Build Status](https://travis-ci.org/clintonjnelson/skribbl.svg?branch=master)](https://travis-ci.org/clintonjnelson/skribbl)
 An app where users add their part to growing stories.
 **TO DO:**
+[![Build Status](https://travis-ci.org/clintonjnelson/skribbl.svg?branch=master)](https://travis-ci.org/clintonjnelson/skribbl)
 - [x] Setup Github Repo
 - [x] Setup Basic App Skeleton of Backend
 - [x] Decide End Goal of App
