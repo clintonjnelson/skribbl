@@ -13,7 +13,7 @@ var storyRouter = express.Router();
 var timelineRouter = express.Router();
 
 // TEMP ENV VARIABLE SET HERE FOR DEVELOPMENT - CHANGE!
-process.env.AUTH_SECRET = 'setThisVarInENV';
+process.env.AUTH_SECRET = process.env.AUTH_SECRET || 'setThisVarInENV';
 
 // Connect mongoose to MongoDB
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/skribbl_dev');
