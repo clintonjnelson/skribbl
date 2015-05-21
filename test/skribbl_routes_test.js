@@ -156,10 +156,6 @@ describe('Skribble routes', function() {
         chai.request('localhost:3000')
           .post('/api/skribbl')
           .send(good_skribbl)
-<<<<<<< HEAD
-=======
-          .send({eat: good_eats}) // without eat auth token?
->>>>>>> master
           .end(function(err, res){
             expect(err).to.eql(null);
             expect(res.status).to.eq(401);
