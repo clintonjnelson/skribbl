@@ -33,7 +33,7 @@ module.exports = function( router, passport ) {
         res.json({ "success": true });
       });
     } else {
-      res.json({msg: "Not allowed: suspended user"});
+      res.json({success: false, msg: "Not allowed: suspended user"});
     }
   });
 
