@@ -17,10 +17,17 @@ require('../server.js');
 
 describe('Skribble routes', function() {
   var good_eats;
+  var bad_eats;
   var good_user    = {
     username: 'unicorn',
     email:    'unicorn@example.com',
     password: 'foobar'
+  };
+  var suspendedUser = {
+    username: 'unicornFluff',
+    email:    'unicornFluff@example.com',
+    password: 'foobar123',
+    suspended: true
   };
   var good_skribbl = {
     content: 'it was a dark and stormy night',
@@ -49,7 +56,39 @@ describe('Skribble routes', function() {
   });
 
 
-	describe('POST /api/skribbl', function (){
+	describe('POST /api/skribbl', function () {
+    describe('with suspended user', function() {
+      before(function(done) {
+        chai.request('localhost:3000')
+          .post('/api/users')
+          .send(suspendedUser)
+          .end(function(err, res) {
+            chai.request('localhost:3000')
+              .get('/api/login')
+              .auth(suspendedUser.email, suspendedUser.password)
+              .end(function(err, res) {
+                bad_eats = res.body.eat;
+                done();
+              });
+          });
+      });
+
+      it('should return {success: false}', function(done){
+        chai.request('localhost:3000')
+          .post('/api/skribbl')
+          .send(good_skribbl)
+          .send({eat: bad_eats})
+          .end(function(err, res){
+            expect(err).to.eql(null);
+            expect(res.body.msg).to.eql("Not allowed: suspended user");
+            expect(res.body.success).to.eq(false);
+            done();
+          });
+      });
+    });
+
+
+
     describe('with valid inputs', function(){
 			it('should return {success: true}', function(done){
 				chai.request('localhost:3000')
@@ -117,6 +156,10 @@ describe('Skribble routes', function() {
         chai.request('localhost:3000')
           .post('/api/skribbl')
           .send(good_skribbl)
+<<<<<<< HEAD
+=======
+          .send({eat: good_eats}) // without eat auth token?
+>>>>>>> master
           .end(function(err, res){
             expect(err).to.eql(null);
             expect(res.status).to.eq(401);
