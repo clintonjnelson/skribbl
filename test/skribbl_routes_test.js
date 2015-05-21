@@ -165,7 +165,6 @@ describe('Skribble routes', function() {
     });
 	});
 
-
 	describe('GET /skribbl/:id', function() {
 		var requestedId;
 		var lastId;
@@ -228,6 +227,18 @@ describe('Skribble routes', function() {
           });
       });
 		});
+
+    describe('GET to "api/skribbl/single/:id"', function() {
+      it('should return a single skribbl', function( done ) {
+        chai.request('localhost:3000')
+          .get('/api/skribbl/single/' + requestedId )
+          .end(function( err, res ) {
+            expect( err ).to.eql(null);
+            expect(res.body).to.have.property('content');
+            done();
+          });
+      });
+    });
 
 		describe('Story Trace', function() {
 			it('should return array of complete story', function( done ) {
