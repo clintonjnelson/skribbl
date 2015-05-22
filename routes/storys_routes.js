@@ -29,13 +29,11 @@ module.exports = function(router){
       }
       randomSkribbl = sample(skribblIDs);
 
-      console.log('RANDOM SKRIBBL ID IS: ', randomSkribbl);
       Skribbl.find({'_id': randomSkribbl}, function(req, endSkribbl) {
         if (err) {
           console.log('Error querying the random skribbl. Error: ', err);
           return res.status(500).json( '' );
         }
-        console.log('RANDOM END SKRIBBL FULL IS: ', endSkribbl[0]);
 
         trace(endSkribbl[0], [], function(err, storyArr) {
           var fullStory = '';
@@ -55,6 +53,36 @@ module.exports = function(router){
               res.json( fullStory );
             }
           });
+        });
+      });
+    });
+  });
+
+  // Querying specific story
+  router.get('/storys/reading/:id', function(req, res) {
+    var requestID = req.params.id;
+    Skribbl.find({'_id': requestID}, function(err, skribbl) {
+      if (err) {
+        console.log('Error querying skribls for specific story. Error: ', err);
+        return res.status(500).json( '' );
+      }
+
+      trace(skribbl[0], [], function(err, storyArr) {
+        var fullStory = '';
+        if (err) {
+          console.log('Error pulling full story trace. Error: ', err);
+          return res.status(500).json( '' );
+        }
+        if (storyArr.length === 0) {
+          return res.json( fullStory.content );
+        }
+        storyArr.reverse();
+        storyArr.forEach(function(part, index, origArr) {
+          fullStory += part.content;
+
+          if (index === storyArr.length -1) {           // if last part
+            res.json( fullStory + skribbl[0].content ); // Adds first part in
+          }
         });
       });
     });

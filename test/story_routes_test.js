@@ -19,11 +19,13 @@ require('../server.js');
 describe('Story routes', function() {
 
 	var validid = null;
+  var lowerSkribbl;
 	before(function(done) {
 		populateDB(5, function(){
 			Skribbl.find({}, function(err, skribbl){
 				if (err) throw err;
 				validid = skribbl[0]._id;
+        lowerSkribbl  = skribbl[10];
 				done();
 			});
 		});
@@ -81,6 +83,20 @@ describe('Story routes', function() {
 			});
 		});
 	});
+
+  describe('GET /storys/reading/:id', function(req, res) {
+    it('returns a random story string', function(done) {
+      chai.request('localhost:3000')
+        .get('/api/storys/reading/' + lowerSkribbl._id)
+        .end(function(err, res) {
+          expect(err).to.eq(null);
+          expect(typeof res.body).to.eq('string');
+          expect(res.body.length).to.be.above(0);
+          expect(res.body).to.include(lowerSkribbl.content);
+          done();
+        });
+    });
+  });
 
   describe('GET /storys/reading/random', function(req, res) {
     it('returns a random story string', function(done) {
