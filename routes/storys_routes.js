@@ -61,7 +61,7 @@ module.exports = function(router){
 							console.log('Error populating child/grandchild skribbls. Error: ', err);
 							return res.status(500).json( [] );
 						}
-						res.json( [finalTree] );
+						res.json( finalTree );
 					});
 				}
 			);
