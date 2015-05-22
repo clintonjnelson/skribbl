@@ -19,11 +19,13 @@ require('../server.js');
 describe('Story routes', function() {
 
 	var validid = null;
+  var lowerSkribbl;
 	before(function(done) {
 		populateDB(5, function(){
 			Skribbl.find({}, function(err, skribbl){
 				if (err) throw err;
 				validid = skribbl[0]._id;
+        lowerSkribbl  = skribbl[10];
 				done();
 			});
 		});
@@ -82,11 +84,11 @@ describe('Story routes', function() {
 		});
 	});
 
-	describe('GET /api/storys/random/:num?', function() {
+	describe('GET /api/storys/randoms/:num?', function() {
 		describe('when 1 is passed for :num', function() {
 			it('returns 1 random story skribbl', function(done) {
 				chai.request('localhost:3000')
-					.get('/api/storys/random/1')
+					.get('/api/storys/randoms/1')
 					.end(function(err, res) {
 						expect(err).to.eq(null);
 						expect(res.body instanceof Array).to.eq(true);
@@ -98,7 +100,7 @@ describe('Story routes', function() {
     describe('when no value is passed for num', function() {
       it('returns default up to 20 random story skribbls', function(done) {
         chai.request('localhost:3000')
-          .get('/api/storys/random')
+          .get('/api/storys/randoms/')
           .end(function(err, res) {
             expect(err).to.eq(null);
             expect(res.body instanceof Array).to.eq(true);
@@ -107,7 +109,19 @@ describe('Story routes', function() {
           });
       });
     });
+	});
 
+	describe('GET /api/storys/random/', function() {
+		it('should return a tree for a random story', function( done ) {
+			chai.request('localhost:3000')
+				.get('/api/storys/random')
+				.end(function( err, res ) {
+					console.log( res.body );
+					expect(err).to.eq( null );
+					expect(res.body[0]).to.have.property('children');
+					done();
+				});
+		});
 	});
 
 	after(function(done) {

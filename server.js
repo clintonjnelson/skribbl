@@ -6,10 +6,11 @@ var passport = require('passport');
 var app      = express();
 
 // Routers
-var usersRouter = express.Router();
-var authRouter  = express.Router();
-var skribblRouter = express.Router();
-var storyRouter = express.Router();
+var usersRouter    = express.Router();
+var authRouter     = express.Router();
+var readingRouter  = express.Router();
+var skribblRouter  = express.Router();
+var storyRouter    = express.Router();
 var timelineRouter = express.Router();
 var populateRouter = express.Router();
 
@@ -24,10 +25,11 @@ app.use(passport.initialize());
 require('./lib/passport_strategy.js')(passport);
 
 // Load routers with routes
-require('./routes/users_routes.js')(usersRouter);
-require('./routes/auth_routes.js' )(authRouter, passport);
-require('./routes/skribbl_routes.js')(skribblRouter);
-require('./routes/storys_routes.js')(storyRouter);
+require('./routes/users_routes.js'   )(usersRouter);
+require('./routes/auth_routes.js'    )(authRouter, passport);
+require('./routes/reading_routes.js' )(skribblRouter);
+require('./routes/skribbl_routes.js' )(skribblRouter);
+require('./routes/storys_routes.js'  )(storyRouter);
 require('./routes/timeline_routes.js')(timelineRouter);
 require('./routes/populate_routes.js')(timelineRouter);
 
@@ -35,6 +37,7 @@ require('./routes/populate_routes.js')(timelineRouter);
 // Assign base routes for routers
 app.use('/api', usersRouter);
 app.use('/api', authRouter );
+app.use('/api', readingRouter);
 app.use('/api', skribblRouter );
 app.use('/api', storyRouter);
 app.use('/api', timelineRouter );
