@@ -6,6 +6,7 @@ var expect     = chai.expect;
 var mongoose   = require('mongoose');
 var populateDB = require('../lib/pop_db.js').loremStorys;
 var Skribbl    = require('../models/skribbl.js');
+var User       = require('../models/User');
 chai.use(chaihttp);
 
 // Use test db
@@ -38,6 +39,7 @@ describe('Skribble routes', function() {
   };
 
 	before(function(done) {
+    // Create a user and return EAT for use in tests
     chai.request('localhost:3000')
       .post('/api/users')
       .send(good_user)
@@ -68,7 +70,10 @@ describe('Skribble routes', function() {
               .auth(suspendedUser.email, suspendedUser.password)
               .end(function(err, res) {
                 bad_eats = res.body.eat;
-                done();
+                User.update( { username: 'unicornFluff' }, { $set: { suspended: true }}, function( err, raw ) {
+                  if ( err ) console.log( err );
+                  done();
+                });
               });
           });
       });

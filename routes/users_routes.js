@@ -12,12 +12,13 @@ module.exports = function loadUserRoutes(router) {
 
   // Create new user
   router.post('/users', function(req, res) {
-    // populate new user data
-    var userData = JSON.parse(JSON.stringify(req.body));  // copy user post data
-    delete userData.password;
-    delete userData.email;
-    userData.basic = { email: req.body.email };
-    var newUser = new User(userData);
+    // Explicitly populate user model to avoid overflow exploit
+    var newUser = new User({
+      username: req.body.username,
+      basic: {
+        email: req.body.email
+      }
+    });
 
     // generate hash & save user
     newUser.generateHash(req.body.password, function(hash) {
@@ -77,18 +78,3 @@ module.exports = function loadUserRoutes(router) {
     res.json({msg: "user successfully suspended"});
   });
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
