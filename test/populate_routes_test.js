@@ -4,9 +4,10 @@ var chai     = require('chai');
 var chaihttp = require('chai-http');
 var expect   = chai.expect;
 var mongoose = require('mongoose');
+var User     = require('../models/User');
 var theToken  = {};
-var adminUser = {username: 'rainbow', email: 'rainbow@example.com', role: "admin", password: 'foobar123'};
-var regUser = {username: 'rainbows', email: 'rainbows@example.com', role: "regUsesr", password: 'foobar123'};
+var adminUser = {username: 'rainbow', email: 'rainbow@example.com', password: 'foobar123'};
+var regUser = {username: 'rainbows', email: 'rainbows@example.com', password: 'foobar123'};
 
 chai.use(chaihttp);
 
@@ -28,7 +29,10 @@ describe("POPULATE route", function() {
               .auth(adminUser.email, adminUser.password)
               .end(function(err, res) {
                 theToken.eat = res.body.eat;
-                done();
+                  User.update({ username: 'rainbow' }, { $set: { role: 'admin'}}, function( err, raw ) {
+                    if ( err ) console.log( err );
+                    done();
+                  })
               });
           });
       });
