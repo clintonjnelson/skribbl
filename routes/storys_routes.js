@@ -10,7 +10,7 @@ module.exports = function(router){
 
 	// Get the 20 newest stories
 	router.get('/storys', function(req, res) {
-		Skribbl.find({parent:null}, null,{limit:20} ,function(err, storys){
+		Skribbl.find({parent_skribbl: null}, null, {limit:20} ,function(err, storys){
 			if(err) {
 				console.log(err);
 				return res.status(500).json( [] );
