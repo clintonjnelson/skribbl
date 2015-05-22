@@ -15,7 +15,7 @@ module.exports = function(grunt) {
     jscs: {
       src: [ 'Gruntfile.js',
              '*.js',
-             '/lib/**/*.js',
+             'lib/**/*.js',
              'models/**/*.js',
              'routes/**/*.js',
              'test/**/*.js'
@@ -28,7 +28,7 @@ module.exports = function(grunt) {
       dev: {
         src: [ 'Gruntfile.js',
                '*.js',
-               '/lib/**/*.js',
+               'lib/**/*.js',
                'models/**/*.js',
                'routes/**/*.js',
                'test/**/*.js'
@@ -47,7 +47,7 @@ module.exports = function(grunt) {
 			jshint: {
 				files: [ 'Gruntfile.js',
                '*.js',
-               '/lib/**/*.js',
+               'lib/**/*.js',
                'models/**/*.js',
                'routes/**/*.js',
                'test/**/*.js'
