@@ -19,11 +19,13 @@ require('../server.js');
 describe('Story routes', function() {
 
 	var validid = null;
+  var lowerSkribbl;
 	before(function(done) {
 		populateDB(5, function(){
 			Skribbl.find({}, function(err, skribbl){
 				if (err) throw err;
 				validid = skribbl[0]._id;
+        lowerSkribbl  = skribbl[10];
 				done();
 			});
 		});

@@ -1,9 +1,11 @@
 'use strict';
 
 var bodyparser = require('body-parser');
+var reverse    = require('lodash').reverse;
 var sample 		 = require('lodash').sample;
 var Skribbl 	 = require('../models/skribbl.js');
 var buildTree  = require('../lib/tree3_by_id').buildTree;
+var trace      = require('../lib/trace_story.js');
 
 module.exports = function(router){
 	router.use(bodyparser.json());
