@@ -124,7 +124,7 @@ describe('Users', function() {
                 User.update({ username: 'rainbow' }, { $set: { role: 'admin' }}, function( err, raw ) {
                   if ( err ) console.log( err );
                   done();
-                })
+                });
               });
           });
       });
