@@ -84,33 +84,6 @@ describe('Story routes', function() {
 		});
 	});
 
-  describe('GET /storys/reading/:id', function(req, res) {
-    it('returns a random story string', function(done) {
-      chai.request('localhost:3000')
-        .get('/api/storys/reading/' + lowerSkribbl._id)
-        .end(function(err, res) {
-          expect(err).to.eq(null);
-          expect(typeof res.body).to.eq('string');
-          expect(res.body.length).to.be.above(0);
-          expect(res.body).to.include(lowerSkribbl.content);
-          done();
-        });
-    });
-  });
-
-  describe('GET /storys/reading/random', function(req, res) {
-    it('returns a random story string', function(done) {
-      chai.request('localhost:3000')
-        .get('/api/storys/reading/random')
-        .end(function(err, res) {
-          expect(err).to.eq(null);
-          expect(typeof res.body).to.eq('string');
-          expect(res.body.length).to.be.above(0);
-          done();
-        });
-    });
-  });
-
 	describe('GET /api/storys/random/:num?', function() {
 		describe('when 1 is passed for :num', function() {
 			it('returns 1 random story skribbl', function(done) {
